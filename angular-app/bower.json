@@ -1,0 +1,27 @@
+{
+  "name": "angular-app",
+  "description": "CRUD Operations for employees with node API calls",
+  "main": "app.js",
+  "authors": [
+    "Richa Dagar"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/richad-cuelogic/Node-Angular-JS-POC",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.1",
+    "bootstrap": "^3.3.6",
+    "angular": "^1.5.0",
+    "moment": "^2.12.0",
+    "angular-ui-router": "^0.2.18",
+    "ng-table": "^0.8.3",
+    "angular-route": "^1.5.0"
+  }
+}
