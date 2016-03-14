@@ -1,38 +1,36 @@
-<div class="col-md-6 col-md-offset-3" >
+<div class="col-md-6 col-md-offset-3" ng-init="employeeInfo()" >
+{{employee}}
     <h2>{{isEdit ? 'Edit' : 'Add'}} Employee {{isEdit ? name :''}} </h2>
     <div ng-show="error" class="alert alert-danger">{{error}}</div>
-    <form name="editform" ng-submit="updateEmployeeInfo()" role="form">
-        <div class="form-group" ng-class="{ 'error': editform.username.$dirty && editform.username.$error.required }">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" class="form-control" ng-model="employee.username" required />
-            <span ng-show="editform.username.$dirty && editform.username.$error.required" class="help-block">Username is required</span>
+    <form name="editform" ng-submit="addEmployee()" role="form">
+        <div class="form-group" ng-class="{ 'error': editform.emp_name.$dirty && editform.emp_name.$error.required }">
+            <label for="emp_name">Employee Name</label>
+            <input type="text" name="emp_name" id="emp_name" class="form-control" ng-model="employee.emp_name" required />
+            <span ng-show="editform.emp_name.$dirty && editform.emp_name.$error.required" class="help-block">Employee name is required</span>
         </div>
         
-        <div class="form-group" ng-class="{ 'error': editform.name.$dirty && editform.name.$error.required }">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" class="form-control" ng-model="employee.name" required />
-            <span ng-show="editform.name.$dirty && editform.name.$error.required" class="help-block">Name is required</span>
+        <div class="form-group" ng-class="{ 'error': editform.email_id.$dirty && editform.email_id.$error.required }">
+            <label for="email_id">Email ID</label>
+            <input type="email" name="email_id" id="email_id" class="form-control" ng-model="employee.email_id" required />
+            <span ng-show="editform.email_id.$dirty && editform.name.$error.required  && editform.email_id.$error.email" class="help-block">Email ID is required</span>
         </div>
-        <div class="form-group" ng-class="{ 'error': editform.address.$dirty && editform.address.$error.required }">
-            <label for="address">Address</label>
-            <textarea type="address" name="address" id="address" class="form-control" ng-model="employee.address" required >{{employee.address}}</textarea>
-            <span ng-show="editform.password.$dirty && editform.password.$error.required" class="help-block">Address is required</span>
+        <div class="form-group" ng-class="{ 'error': editform.date_of_joining.$dirty && editform.date_of_joining.$error.required }">
+            <label for="date_of_joining">Date of Joining</label>
+            <input type="text" name="date_of_joining" id="date_of_joining" class="form-control" ng-model="employee.date_of_joining" required />
+            <span ng-show="editform.date_of_joining.$dirty && editform.date_of_joining.$error.required" class="help-block">Date of Joining is required</span>
         </div>
-        <div class="form-group" ng-class="{ 'error': editform.email.$dirty && editform.email.$error.required }">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="form-control" ng-model="employee.email" required />
-            <span ng-show="editform.email.$dirty && editform.email.$error.required  && editform.email.$error.email" class="help-block">Email is required</span>
+        <div class="form-group" ng-class="{ 'error': editform.date_of_birth.$dirty && editform.date_of_birth.$error.required }">
+            <label for="date_of_joining">Date of Birth</label>
+            <input type="text" name="date_of_birth" id="date_of_birth" class="form-control" ng-model="employee.date_of_birth" required />
+            <span ng-show="editform.date_of_birth.$dirty && editform.date_of_birth.$error.required" class="help-block">Date of Birth is required</span>
         </div>
-         <div class="form-group" ng-class="{ 'error': editform.age.$dirty && editform.age.$error.required }">
+        
+       <!--   <div class="form-group" ng-class="{ 'error': editform.age.$dirty && editform.age.$error.required }">
             <label for="age">Age</label>
             <input type="number"  maxlength="3" name="age" id="age" class="form-control" ng-model="employee.age" required />
             <span ng-show="editform.age.$dirty && editform.age.$error.required && editform.age.$error.number" class="help-block">Age is required</span>
-        </div>
-         <div class="form-group" ng-class="{ 'error': editform.education.$dirty && form.education.$error.required }">
-            <label for="education">Education</label>
-            <input type="text" name="education" id="education" class="form-control" ng-model="employee.education" required />
-            <span ng-show="editform.education.$dirty && editform.education.$error.required" class="help-block">Education is required</span>
-        </div>
+        </div> -->
+         
 
         <div class="form-actions">
             <button type="submit" ng-disabled="editform.$invalid" ng-show="!inProcess" class="btn btn-primary">{{isEdit ? 'Update' : 'Add'}} </button>

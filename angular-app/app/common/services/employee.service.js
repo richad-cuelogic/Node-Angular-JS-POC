@@ -3,8 +3,8 @@ angular.module('employee.service',[])
 
 function employeeService($q,$rootScope,$timeout,$location,$http) {
   var service = {};
-     var employees = {};
-    function employeeName(username) {
+   //  var employees = {};
+   /* function employeeName(username) {
       return $q(function(resolve, reject) {
         for(var i=0;i<employees.length;i++)
         { 
@@ -30,15 +30,8 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
       });
 
   }
+  */
   function employeeList() {
-    /*return $q(function(resolve, reject) {
-      if(typeof employees == 'object'){
-          resolve(employees);
-      } else {
-        reject('No Employees');
-      }   
-    });
-    */
     return $http({
             method: "POST",
             url: "http://192.168.10.248:8081/employee/list",
@@ -46,7 +39,15 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
             data: {email_id:'richa.dagar@cuelogic.co.in'}
         });
   }
-
+  function addEmployee(empdata) {
+    return $http({
+            method: "POST",
+            url: "http://192.168.10.248:8081/employee/add",
+            dataType: 'json',
+            data: empdata
+        });       
+  }
+/*
   function updateEmployeeInfo(objParams) {
     employees.push(objParams);
     return $q(function(resolve, reject) {   
@@ -58,6 +59,7 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
     });
 
   }
+  
    function deleteEmployee(username) {  
      for(var i=0;i<employees.length;i++)
         { 
@@ -70,23 +72,13 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
         return $rootScope.employees;    
   }
 
-  function addEmployee(objParams) {
-    employees.push(objParams);
-    return $q(function(resolve, reject) {   
-      if(typeof employees == 'object'){
-          resolve(employees);
-      } else {
-        reject('Cannot add');
-      }   
-    });
+  */
 
-  }
-
-  service.employeeName = employeeName;
-  service.employeeInfo = employeeInfo;
+  //service.employeeName = employeeName;
+//  service.employeeInfo = employeeInfo;
   service.employeeList = employeeList;
-  service.updateEmployeeInfo = updateEmployeeInfo;
-  service.deleteEmployee = deleteEmployee;
+  //service.updateEmployeeInfo = updateEmployeeInfo;
+  //service.deleteEmployee = deleteEmployee;
   service.addEmployee = addEmployee;
   return service;
 
