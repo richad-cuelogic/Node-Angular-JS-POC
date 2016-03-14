@@ -1,20 +1,20 @@
-angular.module('loginService', [])
-    .service('loginService', [loginService]);
+angular.module('login.service', [])
+    .service('loginService', ['$http',loginService]);
 
-function loginService() {
+function loginService($http) {
 
-   	var loginService = {};
+    var loginService = {};
 
     function login(loginCredentials) {
-		return true;
-		/*true;$http({
+        console.log('service');
+        console.log(loginCredentials);
+        return $http({
             method: "POST",
-            url: "",
+            url: "http://192.168.10.248:8081/login",
             dataType: 'json',
             data: loginCredentials
         });
-        */
-	}
+    }
 
 
 

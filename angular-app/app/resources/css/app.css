@@ -1,0 +1,99 @@
+.page-processing {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 900;
+    margin-top: -50px;
+}
+
+.loader {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    z-index: 999;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.loader-inner{
+    position: relative;
+    height: 50px;
+    width: 50px;
+    margin: auto;
+    -webkit-animation:spin 2s linear infinite;
+    -moz-animation:spin 2s linear infinite;
+    animation:spin 2s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.arrow-size {
+    height: 35px;
+}
+
+.content-wrapper {
+    min-height: 600px
+}
+
+.today-history-box
+{
+        max-height: 325px;
+    overflow-y: scroll;
+    min-height: 325px;
+}
+.red-color {
+    color: red;
+    font-size: 10px;
+}
+.green-color {
+    color:  green;
+    font-size: 10px;
+}
+
+.message-input-box {
+    margin: 20px 0;
+}
+
+.app-logo{
+    /*background-image: url(../images/app-logo.png);*/
+    background-repeat: no-repeat;
+   background-position: right 84px center;
+    padding-top:110px;
+}
+
+.notify-image {
+    margin-left: 40px;
+}
+
+.weak-history-list {
+    min-height: 300px;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    border: none;
+}
+.table-bordered {
+    border: solid 1px #222D32;
+}
+.table > thead > tr:last-child > th {
+    border-bottom: solid 1px #222D32;
+    border-right: solid 1px #222D32;
+}
+.table > thead > tr > th {
+    border-right: solid 1px #222D32;
+}
+.table > thead > tr > th:last-child {
+    border-right: none;
+}
+
+.table > tbody > tr > td {
+    border-bottom: solid 1px #222D32;
+    border-right: solid 1px #222D32;
+}

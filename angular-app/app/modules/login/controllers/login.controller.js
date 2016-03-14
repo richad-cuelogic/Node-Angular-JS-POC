@@ -1,12 +1,14 @@
-angular.module('login.controller',['services'])
-      .controller('loginCtrl',['$scope','loginService','$rootScope','$location', loginCtrl])
+angular.module('login.controller',[])
+      .controller('loginCtrl',['$scope','$rootScope','$location','loginService', loginCtrl]);
 
-function loginCtrl($scope,loginService,$rootScope, $location) {
-  $scope.error ="";
+function loginCtrl($scope,$rootScope,$location,loginService) {
+ $scope.error ="";  
   $scope.login = function (){
-         loginService.login($scope.username,$scope.password)
+    console.log();
+         loginService.login($scope.credentials)
          .then(function(response) {  
-            $location.path('/home');                  
+          console.log(response);
+            $location.path('/employee');                  
           }, function(rejected){
                   $scope.error="Invalid username/password";
           })

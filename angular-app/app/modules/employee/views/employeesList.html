@@ -1,0 +1,65 @@
+<div style="width:80%;margin:20px" ng-init="employeeList();">
+<h2>Hello</h2>
+<div ng-show="error" class="alert alert-danger">{{error}}</div>
+</div>
+<div style="width:80%;margin:20px">
+	<h3>Employees List</h3>
+	 		<div class="row">             
+                    <div class="custom-select">                   
+                        <select name="sortOption" id="sortOption" ng-model="sortOption" ng-change="order()">
+		                    <option value="name" selected>Name</option>
+							<option value="email">Email</option>
+							<option value="age">Age</option>
+							<option value="gender">Gender</option>
+                        </select>                   
+                	</div>
+              
+            </div>
+            <div class="row" align="right">             
+                     <label> <a ng-href="#/employee/addEmployee" > Add Employee </a></label>
+              
+            </div>
+            <!--  <div class="row" align="right">             
+                     <label> <a ng-click="multipleDeletion()" > Delete Employee </a></label>
+              
+            </div>
+             <div class="row" align="right">             
+                     <label> <a ng-click="clearLocalStorage()" >Logout </a></label>
+              
+            </div> -->
+           
+		<table class="table table-striped" style="width:80%">
+		    <thead>
+		    	<!-- Emp Id, Name, Email Id, Date of Join, Date of Birth, Experience in Years -->
+			    <tr><th>S.L No.</th>
+			    	<th>Emp ID</th>
+			        <th>Name</th>
+					<th>Email ID</th>
+					<th>Date of Joining</th>
+					<th>Date of Birth</th>
+					<th>Experience(in yrs)</th>
+					<th>Action</th>
+				 </tr>
+			 </thead>
+		    <tbody>
+		      	<tr  ng-repeat="employee in employees"  ng-class="{true: 'red', false: 'green'}[employee.isDelete]" class="employee-list" employee-select  >
+		       <td><input type="checkbox" ng-model="employee.isDelete"/>{{$index}}</td>    
+					<td><a ng-click="multipleEmployeeSelect();"  ng-dblclick="editEmployeeRedirect(employee.username)" >{{$index+1}}</a></td>
+					<td class="bg-green-none">{{employee.emp_name}}</td>
+					<td class="bg-green-none">{{employee.email_id}}</td>
+					<td class="bg-green-none">{{employee.date_of_joining}}</td>
+					<td class="bg-green-none">{{employee.gender}}</td>
+					<td class="bg-green-none">{{employee.education}}</td>
+					
+					<td>
+						<!--<employee-delete username="{{employee.username}}"></employee-delete>-->
+						<a ng-click="editEmployeeRedirect(employee.username)" ng-if="employee.username" class="	glyphicon glyphicon-pencil"> </a>&nbsp;&nbsp;
+						<a ng-click="deleteEmployee(employee.username)" ng-if="employee.username" class="glyphicon glyphicon-trash"> </a>
+					</td>
+				</tr>
+				<!-- <tr width="100%"><td colspan="7">Using ng-grid</td></tr>
+				<tr width="100%"><td colspan="7"> <div class="gridStyle" ng-grid="gridOptions"></div></td></tr> -->
+			</tbody>
+			
+		</table>
+</div>
