@@ -52,7 +52,7 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
          employeeService.deleteEmployee(username,id).then(
             function(response) {
                 console.log(response);
-             $location.path('/employee');
+             $route.reload();
             }, function(rejected){
               $scope.error=rejected;
             } 
@@ -90,7 +90,7 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
         return finalArr;
   }
     $scope.sortEmployees= function(sortVal){
-      
+
          employeeService.sortEmployees(sortVal).then(
               function(response) {          
                 var objtoarr = $.map(response.data, function(el) { return el } );
