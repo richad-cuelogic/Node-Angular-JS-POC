@@ -43,17 +43,18 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
             data: empdata
         });       
   }
-   function deleteEmployee(username) {  
+   function deleteEmployee(username,id) {  
      return $http({
             method: "POST",
             url: "http://192.168.10.248:8081/employee/delete",
             dataType: 'json',
-            data: { "email_id":username }
+            data: { "email_id":username, "id":id }
         });    
   }
 
   function updateEmployee(empdata) { 
     console.log("update employee service");
+    console.log(empdata);
      return $http({
             method: "POST",
             url: "http://192.168.10.248:8081/employee/update",

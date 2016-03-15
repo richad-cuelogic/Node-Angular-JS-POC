@@ -199,7 +199,7 @@ dyn.listTables(function(err, data) {
     dyn.putItem({
             "TableName": 'employees',
             "Item": {
-                "id":{"S":"1"},
+                "id":{"S":request.id},
                 "emp_name":{"S":request.emp_name},
                 "email_id":{"S":request.email_id},
                 "date_of_joining":{"N":request.date_of_joining},
@@ -227,7 +227,7 @@ updateEmployee = function(request, callback) {
     "TableName": "employees",
     "Key": {
         "id": {
-            "S": "3"
+            "S": request.id
         },
         "employee_type": {
             "S": "employee"
@@ -296,7 +296,7 @@ deleteEmployee = function(request, callback) {
     "TableName": "employees",
     "Key": {
         "id": {
-            "S": "1"
+            "S": request.id
         },
         "employee_type": {
             "S": "employee"

@@ -25,6 +25,7 @@ exports.login = {
 exports.add = {
     validate: {
         payload: {
+            id: Joi.string().required(),
             emp_name: Joi.string().required(),
             email_id:Joi.string().email().required(),
             date_of_joining: Joi.string().required(),
@@ -50,6 +51,7 @@ exports.add = {
 exports.updateEmployee = {
         validate: {
             payload: {
+                id: Joi.string().required(),
                 emp_name: Joi.string().required(),
                 email_id:Joi.string().email().required(),
                 date_of_joining: Joi.string().required(),
@@ -57,7 +59,6 @@ exports.updateEmployee = {
             }
         },
         handler: function(request, reply) {   
-        console.log("upadte employee handler")     
                  Employee.updateEmployee(request.payload, function(err, employee){
                     if (err) {
                         console.error(err);
@@ -86,6 +87,7 @@ exports.employeeList = {
 exports.deleteEmployee = {
         validate: {
             payload: {
+                id: Joi.string().required(),
                 email_id: Joi.string().required()
             }
         },

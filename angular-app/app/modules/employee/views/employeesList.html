@@ -8,18 +8,35 @@
 	  <div class="row" align="left">             
          <a ng-href="#/employee/addEmployee" class="btn btn-primary" > Add Employee </a>
        </div>
+       <BR/>
+	 		<div class="row">             
+                    <div class="custom-select">   
+                    	<label >SORT :</label>                
+                        <select name="sortOption" id="sortOption" ng-model="sortOption" ng-click="sort()">
+                       		<option value="">Select</option>
+                        	<option value="name">Employee ID</option>
+		                    <option value="name">Employee Name</option>
+							<option value="email">Email ID</option>
+                        </select>   
 
-	 		<!--<div class="row">             
-                    <div class="custom-select">                   
-                        <select name="sortOption" id="sortOption" ng-model="sortOption" ng-change="order()">
-		                    <option value="name" selected>Name</option>
-							<option value="email">Email</option>
-							<option value="doj">DOJ</option>
-							<option value="dob">DOB</option>
-                        </select>                   
+                         <label >SEARCH :</label>                
+                        <select name="searchOption" id="searchOption" ng-model="searchOption" ng-change="search()">
+                        	<option value="">Select</option>
+                        	<option value="name">Employee ID</option>
+		                    <option value="name">Employee Name</option>
+							<option value="email">Email ID</option>
+                        </select> 
+
+                         <label >FILTER :</label>                
+                        <select name="searchOption" id="searchOption" ng-model="searchOption" ng-change="search()">
+                        	<option value="">Select</option>
+		                    <option value="name">Date of Birth</option>
+							<option value="email">Date of Joining</option>
+                        </select>                     
                 	</div>
-            </div>-->
 
+            </div>
+             
           
             <!--  <div class="row" align="right">             
                      <label> <a ng-click="multipleDeletion()" > Delete Employee </a></label>
@@ -45,8 +62,8 @@
 			 </thead>
 		    <tbody>
 		      	<tr  ng-repeat="employee in employees"  ng-class="{true: 'red', false: 'green'}[employee.isDelete]" class="employee-list" employee-select  >
-		       <td><input type="checkbox" ng-model="employee.isDelete"/>{{$index}}</td>    
-					<td>{{$index+1}}</td>
+		       <td>{{$index+1}}</td>    
+					<td>{{employee.id}}</td>
 					<td class="bg-green-none">{{employee.emp_name}}</td>
 					<td class="bg-green-none">{{employee.email_id}}</td>
 					<td class="bg-green-none">{{employee.date_of_joining}}</td>
@@ -56,7 +73,7 @@
 					<td>
 						<!--<employee-delete username="{{employee.username}}"></employee-delete>-->
 						<a ng-click="editEmployeeRedirect(employee.email_id)" ng-if="employee.email_id" class="	glyphicon glyphicon-pencil"> </a>&nbsp;&nbsp;
-						<a ng-click="deleteEmployee(employee.email_id)" ng-if="employee.email_id" class="glyphicon glyphicon-trash"> </a>
+						<a ng-click="deleteEmployee(employee.email_id,employee.id)" ng-if="employee.email_id" class="glyphicon glyphicon-trash"> </a>
 					</td>
 				</tr>
 				<!-- <tr width="100%"><td colspan="7">Using ng-grid</td></tr>

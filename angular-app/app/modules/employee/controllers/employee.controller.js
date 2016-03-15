@@ -19,7 +19,10 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
      	$scope.isEdit= true;
      }
 
+
     $scope.addEmployee = function (){
+     //var randomNum= Math.floor(1000 + Math.random() * 9000);
+        $scope.employee.id= "Cue"+Math.floor(1000 + Math.random() * 9000);;
            employeeService.addEmployee($scope.employee).then(
               function(response) {
                 console.log(response);
@@ -44,9 +47,9 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
          );
      };
 
-      $scope.deleteEmployee = function (username){
+      $scope.deleteEmployee = function (username,id){
         console.log("controller delete employee");
-         employeeService.deleteEmployee(username).then(
+         employeeService.deleteEmployee(username,id).then(
             function(response) {
                 console.log(response);
              $location.path('/employee');
@@ -68,6 +71,8 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
                 var objtoarr = $.map(response.data, function(el) { return el } );                
                 var employeeArr = normalizeObjtoArray(objtoarr);
                 $scope.employee = employeeArr[0];
+                                console.log($scope.employee);
+
               }, function(rejected){
                 $scope.error=rejected;
               } 
