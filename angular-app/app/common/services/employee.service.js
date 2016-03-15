@@ -62,6 +62,16 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
             data: empdata
         });    
   }
+  function sortEmployees(sortVaL) { 
+    console.log("update employee service");
+    console.log(empdata);
+     return $http({
+            method: "POST",
+            url: "http://192.168.10.248:8081/employee/sort",
+            dataType: 'json',
+            data: {sortVaL :sortVal}
+        });    
+  }
 /*
   function updateEmployeeInfo(objParams) {
     employees.push(objParams);

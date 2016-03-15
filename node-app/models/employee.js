@@ -332,6 +332,27 @@ getDetail = function(request, callback) {
     });
 }
 
+addEmployee = function(request, callback) {
+    //this.find({}, callback);
+    console.log(request);
+    dyn.query({
+            "TableName": "employees",
+            "ConsistentRead": true,
+            "KeyConditionExpression": "request = :val",
+            "ExpressionAttributeValues": {":val": {"S": request.data}}
+        }, function (err, data) {
+            if(err) {
+                console.log(err);
+               // this.errors.(err);
+            }
+            else{
+                callback(err,data);
+            }
+
+        });
+}
+
+
 
 module.exports = {
     addEmployee: addEmployee,

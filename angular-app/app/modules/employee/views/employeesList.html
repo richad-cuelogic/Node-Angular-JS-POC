@@ -12,15 +12,15 @@
 	 		<div class="row">             
                     <div class="custom-select">   
                     	<label >SORT :</label>                
-                        <select name="sortOption" id="sortOption" ng-model="sortOption" ng-click="sort()">
+                        <select name="sortOption" id="sortOption" ng-model="sortOption" ng-click="sortEmployeeList()">
                        		<option value="">Select</option>
-                        	<option value="name">Employee ID</option>
-		                    <option value="name">Employee Name</option>
+                        	<option value="emp_id">Employee ID</option>
+		                    <option value="emp_name">Employee Name</option>
 							<option value="email">Email ID</option>
                         </select>   
 
                          <label >SEARCH :</label>                
-                        <select name="searchOption" id="searchOption" ng-model="searchOption" ng-change="search()">
+                        <select name="searchOption" id="searchOption" ng-model="searchOption" ng-change="searchEmployeeList()">
                         	<option value="">Select</option>
                         	<option value="name">Employee ID</option>
 		                    <option value="name">Employee Name</option>
@@ -28,7 +28,7 @@
                         </select> 
 
                          <label >FILTER :</label>                
-                        <select name="searchOption" id="searchOption" ng-model="searchOption" ng-change="search()">
+                        <select name="searchOption" id="filterOption" ng-model="filterOption" ng-change="search()">
                         	<option value="">Select</option>
 		                    <option value="name">Date of Birth</option>
 							<option value="email">Date of Joining</option>
@@ -51,9 +51,9 @@
 		    <thead>
 		    	<!-- Emp Id, Name, Email Id, Date of Join, Date of Birth, Experience in Years -->
 			    <tr><th>S.L No.</th>
-			    	<th>Emp ID</th>
-			        <th>Name</th>
-					<th>Email ID</th>
+			    	<th ng-click="sortEmployees('id')">Emp ID</th>
+			        <th ng-click="sortEmployees('emp_name')">Name</th>
+					<th ng-click="sortEmployees('email_id')">Email ID</th>
 					<th>Date of Joining</th>
 					<th>Date of Birth</th>
 					<!-- <th>Experience(in yrs)</th> -->

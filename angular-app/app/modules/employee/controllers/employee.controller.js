@@ -89,6 +89,17 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
         }
         return finalArr;
   }
+    $scope.sortEmployees= function(sortVal){
+      
+         employeeService.sortEmployees(sortVal).then(
+              function(response) {          
+                var objtoarr = $.map(response.data, function(el) { return el } );
+                $scope.employees =normalizeObjtoArray(objtoarr);
+              }, function(rejected){
+                $scope.error=rejected;
+              } 
+         );
+  };
 
 
     /*

@@ -122,3 +122,18 @@ exports.getDetail = {
                 });                      
         }
 };
+
+exports.sortEmployee = {
+        handler: function(request, reply) {  
+        console.log("get detail");   
+        console.log(request);
+                 Employee.sortEmployee(request, function(err, employee){
+                    if (err) {
+                        console.error(err);
+                        return reply(Boom.badImplementation(err));
+                    }
+                    return reply(employee);
+
+                });                      
+        }
+};
