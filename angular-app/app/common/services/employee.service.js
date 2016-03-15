@@ -35,9 +35,8 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
     return $http({
             method: "POST",
             url: "http://192.168.10.248:8081/employee/list",
-            dataType: 'json',
-            data: {email_id:'richa.dagar@cuelogic.co.in'}
-        });
+            dataType: 'json'
+          });
   }
   function addEmployee(empdata) {
     return $http({

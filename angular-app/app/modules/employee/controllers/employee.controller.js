@@ -6,6 +6,7 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
   $scope.employeeList= function(){
          employeeService.employeeList().then(
               function(response) {
+                console.log(response.data);
                 $scope.arr = $.map(response.data, function(el) { return el } );
                 $scope.employees =normalizeObjtoArray($scope.arr);
                 console.log($scope.employees);

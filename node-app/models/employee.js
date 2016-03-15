@@ -41,6 +41,10 @@ dyn.listTables(function(err, data) {
         {
             "AttributeName": "date_of_birth",
             "AttributeType": "N"
+        },
+        {
+            "AttributeName": "employee_type",
+            "AttributeType": "S"
         }
     ],
     "TableName": "employees",
@@ -50,11 +54,27 @@ dyn.listTables(function(err, data) {
             "KeyType": "HASH"
         },
         {
-            "AttributeName": "email_id",
+            "AttributeName": "employee_type",
             "KeyType": "RANGE"
         }
     ],
     "LocalSecondaryIndexes": [
+        {
+            "IndexName": "email",
+            "KeySchema": [
+                {
+                    "AttributeName": "id",
+                    "KeyType": "HASH"
+                },
+                {
+                    "AttributeName": "email_id",
+                    "KeyType": "RANGE"
+                }
+            ],
+            "Projection": {
+                "ProjectionType": "KEYS_ONLY"
+            }
+        },
         {
             "IndexName": "emp_name",
             "KeySchema": [
@@ -70,7 +90,7 @@ dyn.listTables(function(err, data) {
             "Projection": {
                 "ProjectionType": "KEYS_ONLY"
             }
-        },
+        }, 
         {
             "IndexName": "doj",
             "KeySchema": [
@@ -161,7 +181,7 @@ dyn.listTables(function(err, data) {
 //CREATE TABLE
 /*
 */
-//DELETE TABLE
+// //DELETE TABLE
 // var params = {
 //     TableName : "employees"
 // };
@@ -175,15 +195,17 @@ dyn.listTables(function(err, data) {
 // });
  addEmployee = function(request, callback) {
     //this.find({}, callback);
-    
+    console.log(request);
     dyn.putItem({
             "TableName": 'employees',
             "Item": {
-                "id":"2",
-                "emp_name":request.emp_name,
-                "email_id":request.email_id,
-                "date_of_joining":request.date_of_joining,
-                "date_of_birth":request.date_of_birth 
+                "id":{"S":"1"},
+                "emp_name":{"S":request.emp_name},
+                "email_id":{"S":request.email_id},
+                "date_of_joining":{"N":request.date_of_joining},
+                "date_of_birth":{"N":request.date_of_birth},
+                "employee_type" : {"S" : "employee"}
+
                 //"CustomActivityNodeId": { "N": obj.custom_activity_node_id.toString() }
             }
         }, function (err, data) {
@@ -207,8 +229,8 @@ updateEmployee = function(request, callback) {
         "id": {
             "S": "1"
         },
-        "email_id": {
-            "S": request.email_id
+        "employee_type": {
+            "S": "employee"
         }
     },
     "UpdateExpression": "set emp_name = :val1",
@@ -229,27 +251,38 @@ updateEmployee = function(request, callback) {
 }
 
 employeeList = function(callback){
-        dyn.getItem({
-                "TableName": "employees",
-                "Key": {
-                     "id": {
-                            "S": "1"
-                        },
-                        "email_id": {
-                            "S": "richa.dagar@gmail.com"
-                        }
-                },
-                // "ProjectionExpression":"emp_name",
-                "ConsistentRead": true,
-                "ReturnConsumedCapacity": "TOTAL"
-        }, function (err, data) {
+    dyn.scan({
+        "TableName": "employees",
+        "ReturnConsumedCapacity": "TOTAL"
+    }, function (err, data) {
                 if(err) {
                     console.log(err);
                 }
                 else{
                     callback(err,data);
-                }
+            }
     });
+    //     dyn.getItems({
+    //             "TableName": "employees",
+    //             "Key": {
+    //                  "id": {
+    //                         "S": "2"
+    //                     },
+    //                     "employee_type": {
+    //                         "S": "employee"
+    //                     }
+    //             },
+    //             // "ProjectionExpression":"emp_name",
+    //             "ConsistentRead": true,
+    //             "ReturnConsumedCapacity": "TOTAL"
+    //     }, function (err, data) {
+    //             if(err) {
+    //                 console.log(err);
+    //             }
+    //             else{
+    //                 callback(err,data);
+    //             }
+    // });
 }
 
 
@@ -261,8 +294,8 @@ deleteEmployee = function(request, callback) {
         "id": {
             "S": "1"
         },
-        "email_id": {
-            "S": request.email_id
+        "employee_type": {
+            "S": "employee"
         }
     },
     "ConditionExpression": "email_id = :val2",
