@@ -51,10 +51,13 @@ exports.updateEmployee = {
         validate: {
             payload: {
                 emp_name: Joi.string().required(),
-                email_id: Joi.string().required()
+                email_id:Joi.string().email().required(),
+                date_of_joining: Joi.string().required(),
+                date_of_birth: Joi.string().required()
             }
         },
-        handler: function(request, reply) {        
+        handler: function(request, reply) {   
+        console.log("upadte employee handler")     
                  Employee.updateEmployee(request.payload, function(err, employee){
                     if (err) {
                         console.error(err);
@@ -93,6 +96,26 @@ exports.deleteEmployee = {
                         return reply(Boom.badImplementation(err));
                     }
                     return reply("Employee deleted successfully!!");
+
+                });                      
+        }
+};
+
+exports.getDetail = {
+        validate: {
+            payload: {
+                email_id: Joi.string().required()
+            }
+        },
+        handler: function(request, reply) {  
+        console.log("get detail");   
+        console.log(request);
+                 Employee.getDetail(request.payload, function(err, employee){
+                    if (err) {
+                        console.error(err);
+                        return reply(Boom.badImplementation(err));
+                    }
+                    return reply(employee);
 
                 });                      
         }

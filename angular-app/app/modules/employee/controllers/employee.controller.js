@@ -5,35 +5,21 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
 	$scope.employees = {};
   $scope.employeeList= function(){
          employeeService.employeeList().then(
-              function(response) {
-                console.log(response.data);
-                $scope.arr = $.map(response.data, function(el) { return el } );
-                $scope.employees =normalizeObjtoArray($scope.arr);
-                console.log($scope.employees);
+              function(response) {          
+                var objtoarr = $.map(response.data, function(el) { return el } );
+                $scope.employees =normalizeObjtoArray(objtoarr);
               }, function(rejected){
                 $scope.error=rejected;
               } 
          );
-
-  function normalizeObjtoArray(obj) {
-    var finalArr = [];
-    for(var i = 0; i < obj.length; i++) {
-        finalArr[i] = [];
-        for(var inner_obj in obj[i]) {
-            finalArr[i][inner_obj] = (obj[i][inner_obj]["N"])?obj[i][inner_obj]["N"]:obj[i][inner_obj]["S"];
-        }
-    }
-    return finalArr;
-  }
-
-};
+  };
       $scope.isEdit= false;
      if($routeParams.username){
      	$rootScope.username = $routeParams.username;
      	$scope.isEdit= true;
      }
 
-      $scope.addEmployee = function (){
+    $scope.addEmployee = function (){
            employeeService.addEmployee($scope.employee).then(
               function(response) {
                 console.log(response);
@@ -45,22 +31,61 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
          );
     };
 
+    $scope.updateEmployee = function (){
+      $scope.inProcess = true;
+      console.log("update employee controller");
+           employeeService.updateEmployee($scope.employee).then(
+              function(response) {
+                console.log(response);
+                $location.path('/employee');
+              }, function(rejected){
+                $scope.error=rejected;
+              } 
+         );
+     };
+
+      $scope.deleteEmployee = function (username){
+        console.log("controller delete employee");
+         employeeService.deleteEmployee(username).then(
+            function(response) {
+                console.log(response);
+             $location.path('/employee');
+            }, function(rejected){
+              $scope.error=rejected;
+            } 
+          );
+    };
+
      $scope.editEmployeeRedirect = function(username){
       
         $location.path('/employee/employeeEdit/'+username);
       
     };
-    $scope.employeeInfo = function(){
+    $scope.getemployeeDetail = function(){
       if($routeParams.username){
-        for($i=0;$i<$scope.employees.length;$i++){
-          if($.inArray($scope.employees[$i].email_id==username)){
-            $scope.employee=$scope.employees[$i];
-            console.log($scope.employee);
-          }
-       }
+           employeeService.getemployeeDetail($routeParams.username).then(
+              function(response) {
+                var objtoarr = $.map(response.data, function(el) { return el } );                
+                var employeeArr = normalizeObjtoArray(objtoarr);
+                $scope.employee = employeeArr[0];
+              }, function(rejected){
+                $scope.error=rejected;
+              } 
+         );
       }
     }
-    
+     function normalizeObjtoArray(obj) {
+        var finalArr = [];
+        for(var i = 0; i < obj.length; i++) {
+            finalArr[i] = [];
+            for(var inner_obj in obj[i]) {
+                finalArr[i][inner_obj] = (obj[i][inner_obj]["N"])?obj[i][inner_obj]["N"]:obj[i][inner_obj]["S"];
+            }
+        }
+        return finalArr;
+  }
+
+
     /*
       employeeService.employeeInfo($routeParams.username).then(
       	      function(response) {
@@ -97,19 +122,7 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
       	 );
      // }
   	};
-  	$scope.deleteEmployee = function (username){
-
-  		 employeeService.deleteEmployee(username).then(
-	      function(response) {
-	         $rootScope.employees = response;
-
-	      	$location.path('/employee/'+ $rootScope.username);
-
-	      }, function(rejected){
-	        $scope.error=rejected;
-	      } 
-	 	);
-    };
+  	
   
   	 
   $scope.editEmployeeRedirect = function(username){

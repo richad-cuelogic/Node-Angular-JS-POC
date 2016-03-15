@@ -181,7 +181,7 @@ dyn.listTables(function(err, data) {
 //CREATE TABLE
 /*
 */
-// //DELETE TABLE
+//DELETE TABLE
 // var params = {
 //     TableName : "employees"
 // };
@@ -222,22 +222,24 @@ dyn.listTables(function(err, data) {
 
 updateEmployee = function(request, callback) {
     //this.find({}, callback);
-    console.log(request);
+ console.log("upadte employee final model");  
    dyn.updateItem({
     "TableName": "employees",
     "Key": {
         "id": {
-            "S": "1"
+            "S": "3"
         },
         "employee_type": {
             "S": "employee"
         }
     },
-    "UpdateExpression": "set emp_name = :val1",
-    "ConditionExpression": "email_id = :val2",
+    "UpdateExpression": "set emp_name = :val1 ,date_of_birth = :val2 , date_of_joining = :val3",
+    "ConditionExpression": "email_id = :val4",
     "ExpressionAttributeValues": {
-        ":val1": {"S": request.emp_name},
-        ":val2": {"S": request.email_id}
+        ":val1": {"S": request.emp_name},      
+        ":val2": {"N": request.date_of_birth},
+        ":val3": {"N": request.date_of_joining},
+        ":val4": {"S": request.email_id},
     },
     "ReturnValues": "ALL_NEW"
     }, function (err, data) {
@@ -288,6 +290,8 @@ employeeList = function(callback){
 
 deleteEmployee = function(request, callback) {
     //this.find({}, callback);
+    console.log("checking request");
+    console.log(request);
    dyn.deleteItem({
     "TableName": "employees",
     "Key": {
@@ -302,7 +306,23 @@ deleteEmployee = function(request, callback) {
     "ExpressionAttributeValues": {
         ":val2": {"S": request.email_id}
     },
+    "ReturnValues": "ALL_OLD"
     }, function (err, data) {
+                if(err) {
+                    console.log(err);
+                }
+                else{
+                    callback(err,data);
+                }
+    });
+}
+getDetail = function(request, callback) {
+    dyn.scan({
+    "TableName": "employees",
+    "FilterExpression": "email_id = :val",
+    "ExpressionAttributeValues": {":val": {"S": request.email_id}},
+    "ReturnConsumedCapacity": "TOTAL"
+        }, function (err, data) {
                 if(err) {
                     console.log(err);
                 }
@@ -317,7 +337,23 @@ module.exports = {
     addEmployee: addEmployee,
     updateEmployee: updateEmployee,
     employeeList:employeeList,
-    deleteEmployee:deleteEmployee
+    deleteEmployee:deleteEmployee,
+    getDetail:getDetail
 };
 
 
+ /* dyn.getItem({
+    "TableName": "employees",
+    "Key": {
+        "id": {
+            "S": "1"
+        },
+        "employee_type": {
+            "S": "employee"
+        }
+    },
+    "ProjectionExpression":"email_id, emp_name, date_of_birth, date_of_joining",
+    "ConsistentRead": true,
+    "ReturnConsumedCapacity": "TOTAL"
+    }
+    */

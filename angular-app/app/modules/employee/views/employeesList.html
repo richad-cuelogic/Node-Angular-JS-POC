@@ -1,10 +1,15 @@
-<div style="width:80%;margin:20px" ng-init="employeeList();">
-<h2>Hello</h2>
+
+<table class="table table-striped" style="width:80%"><div style="width:80%;margin:20px" ng-init="employeeList();">
+<h2>Welcome </h2>
 <div ng-show="error" class="alert alert-danger">{{error}}</div>
 </div>
 <div style="width:80%;margin:20px">
 	<h3>Employees List</h3>
-	 		<div class="row">             
+	  <div class="row" align="left">             
+         <a ng-href="#/employee/addEmployee" class="btn btn-primary" > Add Employee </a>
+       </div>
+
+	 		<!--<div class="row">             
                     <div class="custom-select">                   
                         <select name="sortOption" id="sortOption" ng-model="sortOption" ng-change="order()">
 		                    <option value="name" selected>Name</option>
@@ -13,12 +18,9 @@
 							<option value="dob">DOB</option>
                         </select>                   
                 	</div>
-            </div>
+            </div>-->
 
-            <div class="row" align="right">             
-                     <label> <a ng-href="#/employee/addEmployee" > Add Employee </a></label>
-              
-            </div>
+          
             <!--  <div class="row" align="right">             
                      <label> <a ng-click="multipleDeletion()" > Delete Employee </a></label>
               
@@ -65,3 +67,4 @@
 
 		
 </div>
+</table>

@@ -1,8 +1,8 @@
-<div class="col-md-6 col-md-offset-3" ng-init="employeeInfo()" >
+<div class="col-md-6 col-md-offset-3" ng-init="getemployeeDetail()" >
 {{employee}}
     <h2>{{isEdit ? 'Edit' : 'Add'}} Employee {{isEdit ? name :''}} </h2>
     <div ng-show="error" class="alert alert-danger">{{error}}</div>
-    <form name="editform" ng-submit="addEmployee()" role="form">
+    <form name="editform" ng-submit="isEdit ? updateEmployee() : addEmployee()" role="form">
         <div class="form-group" ng-class="{ 'error': editform.emp_name.$dirty && editform.emp_name.$error.required }">
             <label for="emp_name">Employee Name</label>
             <input type="text" name="emp_name" id="emp_name" class="form-control" ng-model="employee.emp_name" required />
@@ -11,7 +11,7 @@
         
         <div class="form-group" ng-class="{ 'error': editform.email_id.$dirty && editform.email_id.$error.required }">
             <label for="email_id">Email ID</label>
-            <input type="email" name="email_id" id="email_id" class="form-control" ng-model="employee.email_id" required />
+            <input type="email" name="email_id" id="email_id" class="form-control" ng-model="employee.email_id" required  />
             <span ng-show="editform.email_id.$dirty && editform.name.$error.required  && editform.email_id.$error.email" class="help-block">Email ID is required</span>
         </div>
         <div class="form-group" ng-class="{ 'error': editform.date_of_joining.$dirty && editform.date_of_joining.$error.required }">

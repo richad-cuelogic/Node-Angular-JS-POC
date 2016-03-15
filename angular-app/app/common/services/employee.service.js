@@ -17,20 +17,17 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
         }
       });
 
-  }
-  function employeeInfo(username) {
-      return $q(function(resolve, reject) {
-        for(var i=0;i<employees.length;i++)
-        { 
-           if(employees[i]["username"]==username){
-                resolve(employees[i]);
-                break;
-            } 
-        }
-      });
+  }*/
+  function getemployeeDetail(username) {
+    return $http({
+            method: "POST",
+            url: "http://192.168.10.248:8081/employee/getDetail",
+            dataType: 'json',
+            data: { "email_id":username }
+          });
 
   }
-  */
+  
   function employeeList() {
     return $http({
             method: "POST",
@@ -45,6 +42,24 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
             dataType: 'json',
             data: empdata
         });       
+  }
+   function deleteEmployee(username) {  
+     return $http({
+            method: "POST",
+            url: "http://192.168.10.248:8081/employee/delete",
+            dataType: 'json',
+            data: { "email_id":username }
+        });    
+  }
+
+  function updateEmployee(empdata) { 
+    console.log("update employee service");
+     return $http({
+            method: "POST",
+            url: "http://192.168.10.248:8081/employee/update",
+            dataType: 'json',
+            data: empdata
+        });    
   }
 /*
   function updateEmployeeInfo(objParams) {
@@ -74,10 +89,10 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
   */
 
   //service.employeeName = employeeName;
-//  service.employeeInfo = employeeInfo;
+  service.getemployeeDetail = getemployeeDetail;
   service.employeeList = employeeList;
-  //service.updateEmployeeInfo = updateEmployeeInfo;
-  //service.deleteEmployee = deleteEmployee;
+  service.updateEmployee = updateEmployee;
+  service.deleteEmployee = deleteEmployee;
   service.addEmployee = addEmployee;
   return service;
 
