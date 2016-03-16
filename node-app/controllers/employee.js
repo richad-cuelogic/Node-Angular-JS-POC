@@ -128,7 +128,10 @@ exports.getDetail = {
 };
 
 exports.sortEmployees = {
-        handler: function(request, reply) {  
+
+        handler: function(request, reply) {
+          console.log("api controler");
+    console.log(request);  
                  Employee.sortEmployees(request, function(err, employee){
                     if (err) {
                         console.error(err);

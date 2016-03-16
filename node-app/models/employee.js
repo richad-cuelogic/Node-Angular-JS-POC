@@ -327,6 +327,7 @@ dyn.listTables(function(err, data) {
         }
 
         sortEmployees = function(request, callback) {
+            console.log("sortEmployees api model");
             dyn.query(
                 {
 
@@ -349,6 +350,7 @@ dyn.listTables(function(err, data) {
                         console.log(err);
                     }
                     else{
+                        console.log(data);
                         callback(err,data);
                     }
 
