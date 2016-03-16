@@ -237,8 +237,8 @@ updateEmployee = function(request, callback) {
     "ConditionExpression": "email_id = :val4",
     "ExpressionAttributeValues": {
         ":val1": {"S": request.emp_name},      
-        ":val2": {"N": request.date_of_birth},
-        ":val3": {"N": request.date_of_joining},
+        ":val2": {"N": request.date_of_birth.toString()},
+        ":val3": {"N": request.date_of_joining.toString()},
         ":val4": {"S": request.email_id},
     },
     "ReturnValues": "ALL_NEW"
