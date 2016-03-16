@@ -115,7 +115,7 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
   };
   $scope.filterEmp = function() {
       var filterBy = document.getElementById('searchOption').value;
-      if(filterBy == "") return;
+     // if(filterBy == "") return;
       var filterVal = document.getElementById('searchValue').value;
       if(filterVal == "") return;
       employeeService.filterEmployees(filterBy, filterVal).then(

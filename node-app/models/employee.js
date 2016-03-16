@@ -376,13 +376,29 @@ filterEmployee = function(request, callback) {
     //console.log(request.payload);
     var filterBy = request.payload.filterBy;
     var ScanFilterObj = {};
-    ScanFilterObj[filterBy] = {
-                                ComparisonOperator: 'CONTAINS', 
-                                AttributeValueList: [ { 'S': request.payload.filterVal }],
+    if(filterBy==""){
+                ScanFilterObj['emp_id'] = {
+                                            ComparisonOperator: 'CONTAINS', 
+                                            AttributeValueList: [ { 'S': request.payload.filterVal }],
+                                        };
+                ScanFilterObj['emp_name'] = {
+                                            ComparisonOperator: 'CONTAINS', 
+                                            AttributeValueList: [ { 'S': request.payload.filterVal }],
+                                        };    
+                ScanFilterObj['email_id'] = {
+                                            ComparisonOperator: 'CONTAINS', 
+                                            AttributeValueList: [ { 'S': request.payload.filterVal }],
+                            };  
+    }else{
+                ScanFilterObj[filterBy] = {
+                                            ComparisonOperator: 'CONTAINS', 
+                                            AttributeValueList: [ { 'S': request.payload.filterVal }],
                             };
+    }                     
     var params = {
         TableName: 'employees',
         ScanFilter:ScanFilterObj,
+        ConditionalOperator: "OR",
         ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
     };
     console.log(params)
