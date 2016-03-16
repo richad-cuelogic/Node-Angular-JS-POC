@@ -47,7 +47,6 @@ function employeeService($rootScope,$location,$http) {
         });    
   }
   function sortEmployees(sortBy) { 
-    console.log(sortBy);
      return $http({
             method: "POST",
             url: apiEndpoint+"/employee/sort",

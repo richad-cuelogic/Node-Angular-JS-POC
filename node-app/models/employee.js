@@ -211,12 +211,9 @@ dyn.listTables(function(err, data) {
 //     }
 // });
          addEmployee = function(request, callback) {
-            //this.find({}, callback);
-            console.log(request);
             dyn.putItem({
                     "TableName": 'employees',
                     "Item": {
-                        // "id":{"S":"23091991"},
                         "id":{"S":request.id},
                         "emp_name":{"S":request.emp_name},
                         "email_id":{"S":request.email_id},
@@ -328,8 +325,6 @@ dyn.listTables(function(err, data) {
         }
 
         sortEmployees = function(request, callback) {
-            console.log("sortEmployees api model");
-            console.log(request.sortBy);
             dyn.query(
                 {
 
