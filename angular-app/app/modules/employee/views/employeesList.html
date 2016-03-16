@@ -12,27 +12,39 @@
 	 		<div class="row">             
                     <div class="custom-select">   
                     	<label >SORT :</label>                
-                        <select name="sortOption" id="sortOption" ng-model="sortOption" ng-click="sortEmployeeList()">
+                        <select name="sortOption" id="sortOption" ng-model="sortOption" ng-change="sortEmployees()">
                        		<option value="">Select</option>
                         	<option value="emp_id">Employee ID</option>
 		                    <option value="emp_name">Employee Name</option>
-							<option value="email">Email ID</option>
+							<option value="email_id">Email ID</option>
                         </select>   
-
-                         <label >SEARCH :</label>                
-                        <select name="searchOption" id="searchOption" ng-model="searchOption" ng-change="searchEmployeeList()">
+                    </br>
+                         <label >SEARCH BY:</label>                
+                        <select name="searchOption" id="searchOption" ng-model="searchOption" >
                         	<option value="">Select</option>
-                        	<option value="name">Employee ID</option>
-		                    <option value="name">Employee Name</option>
-							<option value="email">Email ID</option>
+                        	<option value="id">Employee ID</option>
+		                    <option value="emp_name">Employee Name</option>
+							<option value="email_id">Email ID</option>
                         </select> 
 
-                         <label >FILTER :</label>                
-                        <select name="searchOption" id="filterOption" ng-model="filterOption" ng-change="search()">
+                         <label >SEARCH VALUE :</label>  
+                         <input type="text" name="searchValue" id="searchValue" placeholder="Search Value"/> 
+                         <input type="button" value="Filter" ng-click="filterEmp()"/>
+                         </br>
+                         <label >SEARCH RANGE :</label>  
+                         <select name="searchOption" id="filterOption" >
+                        	<option value="">Select</option>
+		                    <option value="date_of_birth">Date of Birth</option>
+							<option value="date_of_joining">Date of Joining</option>
+                        </select>
+                         <input type="date" name="fromDate" id="fromDate" placeholder="from date"/> 
+                         <input type="date" name="toDate" id="toDate" placeholder="to date"/> 
+                         <input type="button" value="Filter By Range" ng-click="filterByRangeEmp()"/>
+                        <!-- <select name="searchOption" id="filterOption" ng-model="filterOption" ng-change="search()">
                         	<option value="">Select</option>
 		                    <option value="name">Date of Birth</option>
 							<option value="email">Date of Joining</option>
-                        </select>                     
+                        </select> -->                     
                 	</div>
 
             </div>
@@ -66,8 +78,8 @@
 					<td>{{employee.id}}</td>
 					<td class="bg-green-none">{{employee.emp_name}}</td>
 					<td class="bg-green-none">{{employee.email_id}}</td>
-					<td class="bg-green-none">{{employee.date_of_joining}}</td>
-					<td class="bg-green-none">{{employee.date_of_birth}}</td>
+					<td class="bg-green-none">{{employee.date_of_joining | date:'dd-MM-yyyy'}}</td>
+					<td class="bg-green-none">{{employee.date_of_birth | date:'dd-MM-yyyy'}}</td>
 					<!-- <td class="bg-green-none">{{employee.total_experience}}</td> -->
 					
 					<td>

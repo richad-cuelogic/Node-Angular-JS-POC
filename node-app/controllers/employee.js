@@ -35,6 +35,8 @@ exports.add = {
     },
     handler: function(request, reply) {
         request.payload.scope = "Employee";
+        request.payload.date_of_joining = (new Date(request.payload.date_of_joining)).getTime();
+        request.payload.date_of_birth = (new Date(request.payload.date_of_birth)).getTime();
         Employee.addEmployee(request.payload, function(err, employee) {
             if (!err) {
 
@@ -55,11 +57,15 @@ exports.updateEmployee = {
                 emp_name: Joi.string().required(),
                 email_id:Joi.string().email().required(),
                 date_of_joining: Joi.string().required(),
-                date_of_birth: Joi.string().required()
+                date_of_birth: Joi.string().required(),
+
+                employee_type: Joi.string().required()
             }
         },
         handler: function(request, reply) {   
-                 Employee.updateEmployee(request.payload, function(err, employee){
+                request.payload.date_of_joining = (new Date(request.payload.date_of_joining)).getTime();
+                request.payload.date_of_birth = (new Date(request.payload.date_of_birth)).getTime();
+                  Employee.updateEmployee(request.payload, function(err, employee){
                     if (err) {
                         console.error(err);
                         return reply(Boom.badImplementation(err));
@@ -128,6 +134,36 @@ exports.sortEmployee = {
         console.log("get detail");   
         console.log(request);
                  Employee.sortEmployee(request, function(err, employee){
+                    if (err) {
+                        console.error(err);
+                        return reply(Boom.badImplementation(err));
+                    }
+                    return reply(employee);
+
+                });                      
+        }
+};
+
+exports.filterEmployee = {
+        handler: function(request, reply) {  
+        console.log("get detail");   
+       // console.log(request);
+                 Employee.filterEmployee(request, function(err, employee){
+                    if (err) {
+                        console.error(err);
+                        return reply(Boom.badImplementation(err));
+                    }
+                    return reply(employee);
+
+                });                      
+        }
+};
+
+exports.filterByRange = {
+        handler: function(request, reply) {  
+        console.log("get detail");   
+        //console.log(request); 
+                 Employee.filterByRange(request, function(err, employee){
                     if (err) {
                         console.error(err);
                         return reply(Boom.badImplementation(err));

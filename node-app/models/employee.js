@@ -60,7 +60,7 @@ dyn.listTables(function(err, data) {
     ],
     "LocalSecondaryIndexes": [
         {
-            "IndexName": "email",
+            "IndexName": "email_id",
             "KeySchema": [
                 {
                     "AttributeName": "id",
@@ -202,8 +202,8 @@ dyn.listTables(function(err, data) {
                 "id":{"S":request.id},
                 "emp_name":{"S":request.emp_name},
                 "email_id":{"S":request.email_id},
-                "date_of_joining":{"N":request.date_of_joining},
-                "date_of_birth":{"N":request.date_of_birth},
+                "date_of_joining":{"N":request.date_of_joining.toString()},
+                "date_of_birth":{"N":request.date_of_birth.toString()},
                 "employee_type" : {"S" : "employee"}
 
                 //"CustomActivityNodeId": { "N": obj.custom_activity_node_id.toString() }
@@ -332,7 +332,7 @@ getDetail = function(request, callback) {
     });
 }
 
-addEmployee = function(request, callback) {
+sortEmployee = function(request, callback) {
     //this.find({}, callback);
     console.log(request);
     dyn.query({
@@ -351,7 +351,89 @@ addEmployee = function(request, callback) {
 
         });
 }
+filterByRange = function(request, callback) {
+    var filterBy = request.payload.filterBy;
+    request.payload.filterFrom = (new Date(request.payload.filterFrom)).getTime();
+    request.payload.filterTo = (new Date(request.payload.filterTo)).getTime();
+    var ScanFilterObj = {};
+    ScanFilterObj[filterBy] = {
+                            ComparisonOperator: 'BETWEEN', 
+                            AttributeValueList: [ { N: (request.payload.filterFrom).toString() }, { N: (request.payload.filterTo).toString() }],
+                        };
+    console.log(ScanFilterObj);
+    var params = {
+        TableName: 'employees',
+        ScanFilter: ScanFilterObj,
+        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+    };
+    dyn.scan(params, function(err, data) {
+        if (err) console.log(err); // an error occurred
+        else callback(err, data); // successful response
+    });
+}
+filterEmployee = function(request, callback) {
+    //this.find({}, callback);
+    //console.log(request.payload);
+    var filterBy = request.payload.filterBy;
+    var ScanFilterObj = {};
+    ScanFilterObj[filterBy] = {
+                                ComparisonOperator: 'CONTAINS', 
+                                AttributeValueList: [ { 'S': request.payload.filterVal }],
+                            };
+    var params = {
+        TableName: 'employees',
+        ScanFilter:ScanFilterObj,
+        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+    };
+    console.log(params)
+    dyn.scan(params, function(err, data) {
+        if (err) console.log(err); // an error occurred
+        else 
+        callback(err, data); // successful response
+    });
+    /*var params = {
+        'TableName' : 'employees',
+        'IndexName' : request.payload.filterBy,
+        'KeyConditions' : 
+        {
+            filterBy : 
+            {
+                "AttributeValueList" : [
+                {
+                    "S" : request.payload.filterVal
+                }
+                ],
+                "ComparisonOperator" : "CONTAINS"
+            }
+        },
+    }
+    dyn.scan(params, function(err, data) {
+        if (err) {
+            console.log (err)
+            callback(err, null)
+        } else {
+            callback(null, data)
+        }
+    });
+*/
 
+/*     dyn.scan({
+    "TableName": "employees",
+    "FilterExpression": "#column CONTAINS :val",
+    "ExpressionAttributeNames": {
+        "#column": request.payload.filterBy,
+    },
+    "ExpressionAttributeValues": {":val": {"S": request.payload.filterVal}},
+    "ReturnConsumedCapacity": "TOTAL"
+        }, function (err, data) {
+                if(err) {
+                    console.log(err);
+                }
+                else{
+                    callback(err,data);
+                }
+    });*/
+}
 
 
 module.exports = {
@@ -359,7 +441,10 @@ module.exports = {
     updateEmployee: updateEmployee,
     employeeList:employeeList,
     deleteEmployee:deleteEmployee,
-    getDetail:getDetail
+    getDetail:getDetail,
+    sortEmployee:sortEmployee,
+    filterEmployee:filterEmployee,
+    filterByRange:filterByRange
 };
 
 

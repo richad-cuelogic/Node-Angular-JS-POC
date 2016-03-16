@@ -64,14 +64,35 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
   }
   function sortEmployees(sortVaL) { 
     console.log("update employee service");
-    console.log(empdata);
+    console.log(sortVaL);
      return $http({
             method: "POST",
             url: "http://192.168.10.248:8081/employee/sort",
             dataType: 'json',
-            data: {sortVaL :sortVal}
+            data: {sortVaL :sortVaL}
         });    
   }
+  function filterEmployees(filterBy, filterVal) { 
+    console.log("update employee service");
+    console.log(filterBy, filterVal);
+     return $http({
+            method: "POST",
+            url: "http://192.168.10.248:8081/employee/filter",
+            dataType: 'json',
+            data: {filterBy : filterBy, filterVal : filterVal}
+        });    
+  }
+  function filterByRangeEmp(filterFrom, filterTo, filterBy) { 
+    console.log("update employee service");
+    console.log(filterFrom, filterTo);
+     return $http({
+            method: "POST",
+            url: "http://192.168.10.248:8081/employee/filterrange",
+            dataType: 'json',
+            data: {filterFrom : filterFrom, filterTo : filterTo, filterBy : filterBy}
+        });    
+  }
+  
 /*
   function updateEmployeeInfo(objParams) {
     employees.push(objParams);
@@ -105,6 +126,11 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
   service.updateEmployee = updateEmployee;
   service.deleteEmployee = deleteEmployee;
   service.addEmployee = addEmployee;
+  service.sortEmployees = sortEmployees;
+  service.filterEmployees = filterEmployees;
+  service.filterByRangeEmp = filterByRangeEmp;
+
+
   return service;
 
 };

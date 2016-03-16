@@ -16,12 +16,12 @@
         </div>
         <div class="form-group" ng-class="{ 'error': editform.date_of_joining.$dirty && editform.date_of_joining.$error.required }">
             <label for="date_of_joining">Date of Joining</label>
-            <input type="text" name="date_of_joining" id="date_of_joining" class="form-control" ng-model="employee.date_of_joining" required />
+            <input type="date" name="date_of_joining" id="date_of_joining" class="form-control" ng-model="employee.date_of_joining"  value="{{employee.date_of_joining | date:'yyyy-MM-dd'}}" required/>
             <span ng-show="editform.date_of_joining.$dirty && editform.date_of_joining.$error.required" class="help-block">Date of Joining is required</span>
         </div>
         <div class="form-group" ng-class="{ 'error': editform.date_of_birth.$dirty && editform.date_of_birth.$error.required }">
-            <label for="date_of_joining">Date of Birth</label>
-            <input type="text" name="date_of_birth" id="date_of_birth" class="form-control" ng-model="employee.date_of_birth" required />
+            <label for="date_of_birth">Date of Birth</label>
+            <input type="date" name="date_of_birth" id="date_of_birth" class="form-control" ng-model="employee.date_of_birth" value="{{employee.date_of_birth | date:'yyyy-MM-dd'}}" required />
             <span ng-show="editform.date_of_birth.$dirty && editform.date_of_birth.$error.required" class="help-block">Date of Birth is required</span>
         </div>
         

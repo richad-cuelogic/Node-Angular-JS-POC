@@ -10,7 +10,7 @@ function loginService($http) {
         console.log(loginCredentials);
         return $http({
             method: "POST",
-            url: "http://192.168.10.248:8081/login",
+            url: "http://idea-PC:8081/login",
             dataType: 'json',
             data: loginCredentials
         });

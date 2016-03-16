@@ -5,9 +5,10 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
 	$scope.employees = {};
   $scope.employeeList= function(){
          employeeService.employeeList().then(
-              function(response) {          
+              function(response) {       
                 var objtoarr = $.map(response.data, function(el) { return el } );
-                $scope.employees =normalizeObjtoArray(objtoarr);
+                $scope.employees = normalizeObjtoArray(objtoarr);
+                console.log($scope.employees);
               }, function(rejected){
                 $scope.error=rejected;
               } 
@@ -37,6 +38,7 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
     $scope.updateEmployee = function (){
       $scope.inProcess = true;
       console.log("update employee controller");
+      console.log($scope.employee)
            employeeService.updateEmployee($scope.employee).then(
               function(response) {
                 console.log(response);
@@ -68,9 +70,12 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
       if($routeParams.username){
            employeeService.getemployeeDetail($routeParams.username).then(
               function(response) {
+                console.log(response.data);
                 var objtoarr = $.map(response.data, function(el) { return el } );                
                 var employeeArr = normalizeObjtoArray(objtoarr);
-                $scope.employee = employeeArr[0];
+                var empObj = {};
+                $scope.employee = angular.extend(empObj, employeeArr[0]);
+                //$scope.employee = employeeArr[0];
                                 console.log($scope.employee);
 
               }, function(rejected){
@@ -82,25 +87,62 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
      function normalizeObjtoArray(obj) {
         var finalArr = [];
         for(var i = 0; i < obj.length; i++) {
+          
+          if(Object.keys(obj[i]).length <= 1) {
+
+          } else {
             finalArr[i] = [];
             for(var inner_obj in obj[i]) {
                 finalArr[i][inner_obj] = (obj[i][inner_obj]["N"])?obj[i][inner_obj]["N"]:obj[i][inner_obj]["S"];
             }
+          }
         }
         return finalArr;
   }
     $scope.sortEmployees= function(sortVal){
-
-         employeeService.sortEmployees(sortVal).then(
-              function(response) {          
-                var objtoarr = $.map(response.data, function(el) { return el } );
-                $scope.employees =normalizeObjtoArray(objtoarr);
-              }, function(rejected){
-                $scope.error=rejected;
-              } 
-         );
+        sortVal = document.getElementById('sortOption').value;
+        console.log("sortVal=" + sortVal)
+        if(sortVal != "") {
+           employeeService.sortEmployees(sortVal).then(
+                function(response) {          
+                  var objtoarr = $.map(response.data, function(el) { return el } );
+                  $scope.employees =normalizeObjtoArray(objtoarr);
+                }, function(rejected){
+                  $scope.error=rejected;
+                } 
+           );
+        }
   };
-
+  $scope.filterEmp = function() {
+      var filterBy = document.getElementById('searchOption').value;
+      if(filterBy == "") return;
+      var filterVal = document.getElementById('searchValue').value;
+      if(filterVal == "") return;
+      employeeService.filterEmployees(filterBy, filterVal).then(
+                function(response) {          
+                  var objtoarr = $.map(response.data, function(el) { return el } );
+                  $scope.employees =normalizeObjtoArray(objtoarr);
+                }, function(rejected){
+                  $scope.error=rejected;
+                } 
+           );
+  }
+  $scope.filterByRangeEmp = function() {
+      var filterFrom = document.getElementById('fromDate').value;
+      if(filterFrom == "") return;
+      var filterTo = document.getElementById('toDate').value;
+      if(filterTo == "") return; 
+      var filterBy = document.getElementById('filterOption').value;
+      if(filterBy == "") return;
+      employeeService.filterByRangeEmp(filterFrom, filterTo, filterBy).then(
+                function(response) {          
+                  var objtoarr = $.map(response.data, function(el) { return el } );
+                  $scope.employees =normalizeObjtoArray(objtoarr);
+                }, function(rejected){
+                  $scope.error=rejected;
+                } 
+           );
+  }
 
     /*
       employeeService.employeeInfo($routeParams.username).then(
