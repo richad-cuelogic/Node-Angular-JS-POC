@@ -90,6 +90,7 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location, $route, $timeout
 
   $scope.sortEmployees= function(sortVal){
         sortVal = document.getElementById('sortOption').value;
+        console.log(sortVal);
        if(sortVal != "") {
                employeeService.sortEmployees(sortVal).then(
                 function(response) {          
@@ -119,11 +120,21 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location, $route, $timeout
 
   $scope.filterByRangeEmp = function() {
       var filterFrom = document.getElementById('fromDate').value;
-      if(filterFrom == "") return;
+      if(filterFrom == "") 
+        {
+          $scope.error="Please select From date";
+          return ;
+        }
       var filterTo = document.getElementById('toDate').value;
-      if(filterTo == "") return; 
+      if(filterTo == "") {
+          $scope.error="Please select To date";
+          return ;
+        }
       var filterBy = document.getElementById('filterOption').value;
-      if(filterBy == "") return;
+      if(filterBy == ""){
+          $scope.error="Please select filter option ";
+          return ;
+        }
       employeeService.filterByRangeEmp(filterFrom, filterTo, filterBy).then(
                 function(response) {          
                   var objtoarr = $.map(response.data, function(el) { return el } );

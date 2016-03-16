@@ -3,11 +3,11 @@ angular.module('employee.service',[])
 
 function employeeService($rootScope,$location,$http) {
   var service = {};
-
+ var apiEndpoint="http://192.168.10.248:8081";
   function getemployeeDetail(username) {
     return $http({
             method: "POST",
-            url: "http://192.168.10.248:8081/employee/getDetail",
+            url: apiEndpoint+"/employee/getDetail",
             dataType: 'json',
             data: { "email_id":username }
           });
@@ -17,14 +17,14 @@ function employeeService($rootScope,$location,$http) {
   function employeeList() {
     return $http({
             method: "POST",
-            url: "http://192.168.10.248:8081/employee/list",
+            url: apiEndpoint+"/employee/list",
             dataType: 'json'
           });
   }
   function addEmployee(empdata) {
     return $http({
             method: "POST",
-            url: "http://192.168.10.248:8081/employee/add",
+            url: apiEndpoint+"/employee/add",
             dataType: 'json',
             data: empdata
         });       
@@ -32,7 +32,7 @@ function employeeService($rootScope,$location,$http) {
    function deleteEmployee(username,id) {  
      return $http({
             method: "POST",
-            url: "http://192.168.10.248:8081/employee/delete",
+            url: apiEndpoint+"/employee/delete",
             dataType: 'json',
             data: { "email_id":username, "id":id }
         });    
@@ -41,23 +41,24 @@ function employeeService($rootScope,$location,$http) {
   function updateEmployee(empdata) { 
      return $http({
             method: "POST",
-            url: "http://192.168.10.248:8081/employee/update",
+            url:apiEndpoint+"/employee/update",
             dataType: 'json',
             data: empdata
         });    
   }
-  function sortEmployees(sortVaL) { 
+  function sortEmployees(sortBy) { 
+    console.log("service",sortBy);
      return $http({
             method: "POST",
-            url: "http://192.168.10.248:8081/employee/sort",
+            url: apiEndpoint+"/employee/sort",
             dataType: 'json',
-            data: {sortVaL :sortVaL}
+            data: {sortBy}
         });    
   }
   function filterEmployees(filterBy, filterVal) { 
      return $http({
             method: "POST",
-            url: "http://192.168.10.248:8081/employee/filter",
+            url: apiEndpoint+"/employee/filter",
             dataType: 'json',
             data: {filterBy : filterBy, filterVal : filterVal}
         });    
@@ -65,7 +66,7 @@ function employeeService($rootScope,$location,$http) {
   function filterByRangeEmp(filterFrom, filterTo, filterBy) { 
      return $http({
             method: "POST",
-            url: "http://192.168.10.248:8081/employee/filterrange",
+            url: apiEndpoint+"/employee/filterrange",
             dataType: 'json',
             data: {filterFrom : filterFrom, filterTo : filterTo, filterBy : filterBy}
         });    

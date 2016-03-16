@@ -22,6 +22,11 @@ dyn.listTables(function(err, data) {
             "AttributeName": "id",
             "AttributeType": "S"
         },
+        ,
+        {
+            "AttributeName": "emp_id",
+            "AttributeType": "S"
+        },
         {
             "AttributeName": "emp_name",
             "AttributeType": "S"
@@ -91,6 +96,22 @@ dyn.listTables(function(err, data) {
                 "ProjectionType": "KEYS_ONLY"
             }
         }, 
+        {
+            "IndexName": "emp_id",
+            "KeySchema": [
+                {
+                    "AttributeName": "id",
+                    "KeyType": "HASH"
+                },
+                {
+                    "AttributeName": "emp_id",
+                    "KeyType": "RANGE"
+                }
+            ],
+            "Projection": {
+                "ProjectionType": "KEYS_ONLY"
+            }
+        },
         {
             "IndexName": "doj",
             "KeySchema": [
