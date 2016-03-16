@@ -88,11 +88,10 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location, $route, $timeout
         return finalArr;
   }
 
-  $scope.sortEmployees= function(sortVal){
-        sortVal = document.getElementById('sortOption').value;
-        console.log(sortVal);
-       if(sortVal != "") {
-               employeeService.sortEmployees(sortVal).then(
+  $scope.sortEmployees= function(sortBy){
+        sortBy = document.getElementById('sortOption').value;
+       if(sortBy != "") {
+               employeeService.sortEmployees(sortBy).then(
                 function(response) {          
                     var objtoarr = $.map(response.data, function(el) { return el } );
                     $scope.employees =normalizeObjtoArray(objtoarr);

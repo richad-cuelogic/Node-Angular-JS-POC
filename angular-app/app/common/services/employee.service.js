@@ -34,7 +34,7 @@ function employeeService($rootScope,$location,$http) {
             method: "POST",
             url: apiEndpoint+"/employee/delete",
             dataType: 'json',
-            data: { "email_id":username, "id":id }
+            data: { "email_id":username , "id" :id}
         });    
   }
 
@@ -47,12 +47,12 @@ function employeeService($rootScope,$location,$http) {
         });    
   }
   function sortEmployees(sortBy) { 
-    console.log("service",sortBy);
+    console.log(sortBy);
      return $http({
             method: "POST",
             url: apiEndpoint+"/employee/sort",
             dataType: 'json',
-            data: {sortBy}
+            data: {"sortBy" : sortBy }
         });    
   }
   function filterEmployees(filterBy, filterVal) { 

@@ -22,11 +22,6 @@ dyn.listTables(function(err, data) {
             "AttributeName": "id",
             "AttributeType": "S"
         },
-        ,
-        {
-            "AttributeName": "emp_id",
-            "AttributeType": "S"
-        },
         {
             "AttributeName": "emp_name",
             "AttributeType": "S"
@@ -55,11 +50,11 @@ dyn.listTables(function(err, data) {
     "TableName": "employees",
     "KeySchema": [
         {
-            "AttributeName": "id",
+            "AttributeName": "employee_type",
             "KeyType": "HASH"
         },
         {
-            "AttributeName": "employee_type",
+            "AttributeName": "id",
             "KeyType": "RANGE"
         }
     ],
@@ -68,7 +63,7 @@ dyn.listTables(function(err, data) {
             "IndexName": "email_id",
             "KeySchema": [
                 {
-                    "AttributeName": "id",
+                    "AttributeName": "employee_type",
                     "KeyType": "HASH"
                 },
                 {
@@ -84,27 +79,11 @@ dyn.listTables(function(err, data) {
             "IndexName": "emp_name",
             "KeySchema": [
                 {
-                    "AttributeName": "id",
+                    "AttributeName": "employee_type",
                     "KeyType": "HASH"
                 },
                 {
                     "AttributeName": "emp_name",
-                    "KeyType": "RANGE"
-                }
-            ],
-            "Projection": {
-                "ProjectionType": "KEYS_ONLY"
-            }
-        }, 
-        {
-            "IndexName": "emp_id",
-            "KeySchema": [
-                {
-                    "AttributeName": "id",
-                    "KeyType": "HASH"
-                },
-                {
-                    "AttributeName": "emp_id",
                     "KeyType": "RANGE"
                 }
             ],
@@ -116,7 +95,7 @@ dyn.listTables(function(err, data) {
             "IndexName": "doj",
             "KeySchema": [
                 {
-                    "AttributeName": "id",
+                    "AttributeName": "employee_type",
                     "KeyType": "HASH"
                 },
                 {
@@ -132,7 +111,7 @@ dyn.listTables(function(err, data) {
             "IndexName": "dob",
             "KeySchema": [
                 {
-                    "AttributeName": "id",
+                    "AttributeName": "employee_type",
                     "KeyType": "HASH"
                 },
                 {
@@ -143,13 +122,12 @@ dyn.listTables(function(err, data) {
             "Projection": {
                 "ProjectionType": "KEYS_ONLY"
             }
-        }
-        ,
+        } ,
         {
             "IndexName": "total_experience",
             "KeySchema": [
                 {
-                    "AttributeName": "id",
+                    "AttributeName": "employee_type",
                     "KeyType": "HASH"
                 },
                 {
@@ -161,6 +139,7 @@ dyn.listTables(function(err, data) {
                 "ProjectionType": "KEYS_ONLY"
             }
         }
+        
     ],
     "ProvisionedThroughput": {
         "ReadCapacityUnits": 10,
@@ -237,6 +216,7 @@ dyn.listTables(function(err, data) {
             dyn.putItem({
                     "TableName": 'employees',
                     "Item": {
+                        // "id":{"S":"23091991"},
                         "id":{"S":request.id},
                         "emp_name":{"S":request.emp_name},
                         "email_id":{"S":request.email_id},
@@ -271,7 +251,7 @@ dyn.listTables(function(err, data) {
                     "S": "employee"
                 }
             },
-            "UpdateExpression": "set emp_name = :val1 ,date_of_birth = :val2 , date_of_joining = :val3,total_experience = :val4",
+            "UpdateExpression": "set emp_name = :val1 ,date_of_birth = :val2 , date_of_joining = :val3 ,total_experience = :val4",
             "ConditionExpression": "email_id = :val5",
             "ExpressionAttributeValues": {
                 ":val1": {"S": request.emp_name},      
@@ -349,19 +329,22 @@ dyn.listTables(function(err, data) {
 
         sortEmployees = function(request, callback) {
             console.log("sortEmployees api model");
+            console.log(request.sortBy);
             dyn.query(
                 {
 
                     TableName: 'employees',
-                    IndexName: 'emp_name',
+                    IndexName: request.sortBy,
                     ConsistentRead: true,
-                    KeyConditions: { 
-                        employee_type: {
+                    KeyConditions: {                        
+                      employee_type: {
                             ComparisonOperator: 'EQ', 
-                            AttributeValueList: [ { S: 'employee' }, ],
+                            AttributeValueList: [ { S: 'employee' } ],
                         },
                     },
                     ScanIndexForward: true,
+                    ReturnConsumedCapacity: 'TOTAL',
+                    Select: 'ALL_ATTRIBUTES'
                 }
 
 

@@ -129,10 +129,8 @@ exports.getDetail = {
 
 exports.sortEmployees = {
 
-        handler: function(request, reply) {
-          console.log("api controler");
-    console.log(request);  
-                 Employee.sortEmployees(request, function(err, employee){
+        handler: function(request, reply) { 
+                 Employee.sortEmployees(request.payload, function(err, employee){
                     if (err) {
                         console.error(err);
                         return reply(Boom.badImplementation(err));

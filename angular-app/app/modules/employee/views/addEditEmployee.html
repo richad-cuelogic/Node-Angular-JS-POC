@@ -24,11 +24,11 @@
             <span ng-show="editform.date_of_birth.$dirty && editform.date_of_birth.$error.required" class="help-block">Date of Birth is required</span>
         </div>
         
-         <div class="form-group" ng-class="{ 'error': editform.total_experience.$dirty && editform.total_experience.$error.required }">
+        <div class="form-group" ng-class="{ 'error': editform.total_experience.$dirty && editform.total_experience.$error.required }">
             <label for="total_experience">Total Experience</label>
             <input type="number"  maxlength="3" name="total_experience" id="total_experience" class="form-control" ng-model="employee.total_experience" value="{{employee.total_experience}}"required />
             <span ng-show="editform.total_experience.$dirty && editform.total_experience.$error.required && editform.total_experience.$error.number" class="help-block">Total Experience is required</span>
-        </div> 
+        </div>
          
 
         <div class="form-actions">
