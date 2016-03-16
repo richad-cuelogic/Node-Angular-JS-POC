@@ -58,7 +58,7 @@ exports.updateEmployee = {
                 email_id:Joi.string().email().required(),
                 date_of_joining: Joi.string().required(),
                 date_of_birth: Joi.string().required(),
-
+                total_experience: Joi.number().required(),
                 employee_type: Joi.string().required()
             }
         },

@@ -1,9 +1,9 @@
 angular.module('employee.service',[])
-       .service('employeeService',['$q','$timeout','$rootScope','$location','$http', employeeService]);
+       .service('employeeService',['$rootScope','$location','$http', employeeService]);
 
-function employeeService($q,$rootScope,$timeout,$location,$http) {
+function employeeService($rootScope,$location,$http) {
   var service = {};
-  
+
   function getemployeeDetail(username) {
     return $http({
             method: "POST",

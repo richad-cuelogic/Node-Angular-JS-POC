@@ -1,7 +1,7 @@
 angular.module('employee.controller',[])
-      .controller('employeeCtrl',['$scope','$routeParams','$rootScope','$location','$timeout','employeeService', employeeCtrl])
+      .controller('employeeCtrl',['$scope','$routeParams','$rootScope','$location', '$route','$timeout','employeeService', employeeCtrl])
 
-function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employeeService) { 
+function employeeCtrl($scope,$routeParams,$rootScope,$location, $route, $timeout,employeeService) { 
 	$scope.employees = {};
   $scope.employeeList= function(){
         employeeService.employeeList().then(
@@ -53,7 +53,7 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
         );
   };
 
-  $scope.editEmployeeRedirect = function(username){     
+  $scope.editEmployeeRedirect = function(username){   
       $location.path('/employee/employeeEdit/'+username);     
   };
 
@@ -65,6 +65,7 @@ function employeeCtrl($scope,$routeParams,$rootScope,$location,$timeout,employee
                 var employeeArr = normalizeObjtoArray(objtoarr);
                 var empObj = {};
                 $scope.employee = angular.extend(empObj, employeeArr[0]);
+                console.log($scope.employee);
                 },
                  function(rejected){
                   $scope.error=rejected;

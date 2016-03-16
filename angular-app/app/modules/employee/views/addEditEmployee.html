@@ -26,7 +26,7 @@
         
          <div class="form-group" ng-class="{ 'error': editform.total_experience.$dirty && editform.total_experience.$error.required }">
             <label for="total_experience">Total Experience</label>
-            <input type="number"  maxlength="3" name="total_experience" id="total_experience" class="form-control" ng-model="employee.total_experience" required />
+            <input type="number"  maxlength="3" name="total_experience" id="total_experience" class="form-control" ng-model="employee.total_experience" value="{{employee.total_experience}} "required />
             <span ng-show="editform.total_experience.$dirty && editform.total_experience.$error.required && editform.total_experience.$error.number" class="help-block">Total Experience is required</span>
         </div> 
          

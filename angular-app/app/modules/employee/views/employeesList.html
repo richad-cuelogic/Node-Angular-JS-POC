@@ -19,7 +19,7 @@
 							<option value="email_id">Email ID</option>
                         </select>   
                     </br>
-                         <label >SEARCH BY:</label>                
+                         <label >Search  By:</label>                
                         <select name="searchOption" id="searchOption" ng-model="searchOption" >
                         	<option value="">Select</option>
                         	<option value="id">Employee ID</option>
@@ -27,19 +27,20 @@
 							<option value="email_id">Email ID</option>
                         </select> 
 
-                         <label >SEARCH VALUE :</label>  
+                         <label >Search Text :</label>  
                          <input type="text" name="searchValue" id="searchValue" placeholder="Search Value"/> 
-                         <input type="button" value="Filter" ng-click="filterEmp()"/>
-                         </br>
-                         <label >SEARCH RANGE :</label>  
+                         <input type="button" class="btn btn-primary" value="Search" ng-click="filterEmp()"/>
+                         </br> </br>
+
+                         <label >Search Range :</label>  
                          <select name="searchOption" id="filterOption" >
                         	<option value="">Select</option>
 		                    <option value="date_of_birth">Date of Birth</option>
 							<option value="date_of_joining">Date of Joining</option>
                         </select>
-                         <input type="date" name="fromDate" id="fromDate" placeholder="from date"/> 
-                         <input type="date" name="toDate" id="toDate" placeholder="to date"/> 
-                         <input type="button" value="Filter By Range" ng-click="filterByRangeEmp()"/>
+                        <label>From Date</label> <input type="date" name="fromDate" id="fromDate" placeholder="from date"/> 
+                         <label>To Date</label> <input type="date" name="toDate" id="toDate" placeholder="to date"/> 
+                         <input type="button" class="btn btn-primary" value="Filter By Range" ng-click="filterByRangeEmp()"/>
                                         
                 	</div>
 
