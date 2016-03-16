@@ -29,8 +29,8 @@ exports.add = {
             emp_name: Joi.string().required(),
             email_id:Joi.string().email().required(),
             date_of_joining: Joi.string().required(),
-            date_of_birth: Joi.string().required()
-            //total_experience: Joi.string().required()
+            date_of_birth: Joi.string().required(),
+            total_experience: Joi.number().required()
         }
     },
     handler: function(request, reply) {
@@ -116,8 +116,6 @@ exports.getDetail = {
             }
         },
         handler: function(request, reply) {  
-        console.log("get detail");   
-        console.log(request);
                  Employee.getDetail(request.payload, function(err, employee){
                     if (err) {
                         console.error(err);
@@ -129,11 +127,9 @@ exports.getDetail = {
         }
 };
 
-exports.sortEmployee = {
+exports.sortEmployees = {
         handler: function(request, reply) {  
-        console.log("get detail");   
-        console.log(request);
-                 Employee.sortEmployee(request, function(err, employee){
+                 Employee.sortEmployees(request, function(err, employee){
                     if (err) {
                         console.error(err);
                         return reply(Boom.badImplementation(err));
@@ -146,8 +142,6 @@ exports.sortEmployee = {
 
 exports.filterEmployee = {
         handler: function(request, reply) {  
-        console.log("get detail");   
-       // console.log(request);
                  Employee.filterEmployee(request, function(err, employee){
                     if (err) {
                         console.error(err);
@@ -161,8 +155,6 @@ exports.filterEmployee = {
 
 exports.filterByRange = {
         handler: function(request, reply) {  
-        console.log("get detail");   
-        //console.log(request); 
                  Employee.filterByRange(request, function(err, employee){
                     if (err) {
                         console.error(err);

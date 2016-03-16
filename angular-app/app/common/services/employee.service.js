@@ -3,21 +3,7 @@ angular.module('employee.service',[])
 
 function employeeService($q,$rootScope,$timeout,$location,$http) {
   var service = {};
-   //  var employees = {};
-   /* function employeeName(username) {
-      return $q(function(resolve, reject) {
-        for(var i=0;i<employees.length;i++)
-        { 
-           if(employees[i]["username"]==username){
-                resolve(employees[i]["name"]);
-                break;
-            } else {
-              reject('Not registered');
-            }
-        }
-      });
-
-  }*/
+  
   function getemployeeDetail(username) {
     return $http({
             method: "POST",
@@ -53,8 +39,6 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
   }
 
   function updateEmployee(empdata) { 
-    console.log("update employee service");
-    console.log(empdata);
      return $http({
             method: "POST",
             url: "http://192.168.10.248:8081/employee/update",
@@ -63,8 +47,6 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
         });    
   }
   function sortEmployees(sortVaL) { 
-    console.log("update employee service");
-    console.log(sortVaL);
      return $http({
             method: "POST",
             url: "http://192.168.10.248:8081/employee/sort",
@@ -73,8 +55,6 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
         });    
   }
   function filterEmployees(filterBy, filterVal) { 
-    console.log("update employee service");
-    console.log(filterBy, filterVal);
      return $http({
             method: "POST",
             url: "http://192.168.10.248:8081/employee/filter",
@@ -83,8 +63,6 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
         });    
   }
   function filterByRangeEmp(filterFrom, filterTo, filterBy) { 
-    console.log("update employee service");
-    console.log(filterFrom, filterTo);
      return $http({
             method: "POST",
             url: "http://192.168.10.248:8081/employee/filterrange",
@@ -93,34 +71,8 @@ function employeeService($q,$rootScope,$timeout,$location,$http) {
         });    
   }
   
-/*
-  function updateEmployeeInfo(objParams) {
-    employees.push(objParams);
-    return $q(function(resolve, reject) {   
-      if(typeof employees == 'object'){
-          resolve(employees);
-      } else {
-        reject('Cannot update');
-      }   
-    });
 
-  }
-  
-   function deleteEmployee(username) {  
-     for(var i=0;i<employees.length;i++)
-        { 
-           if(employees[i]["username"]==username){
-                 delete $rootScope.employees[i];
-                $location.path('/employee/list');
-                break;
-            } 
-        }  
-        return $rootScope.employees;    
-  }
 
-  */
-
-  //service.employeeName = employeeName;
   service.getemployeeDetail = getemployeeDetail;
   service.employeeList = employeeList;
   service.updateEmployee = updateEmployee;

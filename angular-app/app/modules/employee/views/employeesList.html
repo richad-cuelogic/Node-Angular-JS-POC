@@ -40,24 +40,10 @@
                          <input type="date" name="fromDate" id="fromDate" placeholder="from date"/> 
                          <input type="date" name="toDate" id="toDate" placeholder="to date"/> 
                          <input type="button" value="Filter By Range" ng-click="filterByRangeEmp()"/>
-                        <!-- <select name="searchOption" id="filterOption" ng-model="filterOption" ng-change="search()">
-                        	<option value="">Select</option>
-		                    <option value="name">Date of Birth</option>
-							<option value="email">Date of Joining</option>
-                        </select> -->                     
+                                        
                 	</div>
 
             </div>
-             
-          
-            <!--  <div class="row" align="right">             
-                     <label> <a ng-click="multipleDeletion()" > Delete Employee </a></label>
-              
-            </div>
-             <div class="row" align="right">             
-                     <label> <a ng-click="clearLocalStorage()" >Logout </a></label>
-              
-            </div> -->
            
 		<table class="table table-striped" style="width:80%">
 		    <thead>
@@ -68,7 +54,7 @@
 					<th ng-click="sortEmployees('email_id')">Email ID</th>
 					<th>Date of Joining</th>
 					<th>Date of Birth</th>
-					<!-- <th>Experience(in yrs)</th> -->
+					<th>Experience(in yrs)</th>
 					<th>Action</th>
 				 </tr>
 			 </thead>
@@ -80,7 +66,7 @@
 					<td class="bg-green-none">{{employee.email_id}}</td>
 					<td class="bg-green-none">{{employee.date_of_joining | date:'dd-MM-yyyy'}}</td>
 					<td class="bg-green-none">{{employee.date_of_birth | date:'dd-MM-yyyy'}}</td>
-					<!-- <td class="bg-green-none">{{employee.total_experience}}</td> -->
+					<td class="bg-green-none">{{employee.total_experience}}</td> 
 					
 					<td>
 						<!--<employee-delete username="{{employee.username}}"></employee-delete>-->

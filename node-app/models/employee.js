@@ -1,7 +1,3 @@
-
-    //bcrypt = require('bcrypt');
-//autoIncrement.initialize(db);
-
 /**
  * @module  Employee
  * @description contain the details of Attribute
@@ -40,6 +36,10 @@ dyn.listTables(function(err, data) {
         },
         {
             "AttributeName": "date_of_birth",
+            "AttributeType": "N"
+        },
+        {
+            "AttributeName": "total_experience",
             "AttributeType": "N"
         },
         {
@@ -123,6 +123,23 @@ dyn.listTables(function(err, data) {
                 "ProjectionType": "KEYS_ONLY"
             }
         }
+        ,
+        {
+            "IndexName": "total_experience",
+            "KeySchema": [
+                {
+                    "AttributeName": "id",
+                    "KeyType": "HASH"
+                },
+                {
+                    "AttributeName": "total_experience",
+                    "KeyType": "RANGE"
+                }
+            ],
+            "Projection": {
+                "ProjectionType": "KEYS_ONLY"
+            }
+        }
     ],
     "ProvisionedThroughput": {
         "ReadCapacityUnits": 10,
@@ -193,263 +210,210 @@ dyn.listTables(function(err, data) {
 //         console.log("Deleted table. Table description JSON:", JSON.stringify(data, null, 2));
 //     }
 // });
- addEmployee = function(request, callback) {
-    //this.find({}, callback);
-    console.log(request);
-    dyn.putItem({
-            "TableName": 'employees',
-            "Item": {
-                "id":{"S":request.id},
-                "emp_name":{"S":request.emp_name},
-                "email_id":{"S":request.email_id},
-                "date_of_joining":{"N":request.date_of_joining.toString()},
-                "date_of_birth":{"N":request.date_of_birth.toString()},
-                "employee_type" : {"S" : "employee"}
+         addEmployee = function(request, callback) {
+            //this.find({}, callback);
+            console.log(request);
+            dyn.putItem({
+                    "TableName": 'employees',
+                    "Item": {
+                        "id":{"S":request.id},
+                        "emp_name":{"S":request.emp_name},
+                        "email_id":{"S":request.email_id},
+                        "date_of_joining":{"N":request.date_of_joining.toString()},
+                        "date_of_birth":{"N":request.date_of_birth.toString()},
+                        "total_experience":{"N":request.total_experience.toString()},          
+                        "employee_type" : {"S" : "employee"}
 
-                //"CustomActivityNodeId": { "N": obj.custom_activity_node_id.toString() }
-            }
-        }, function (err, data) {
-            if(err) {
-                console.log(err);
-               // this.errors.(err);
-            }
-            else{
-                callback(err,data);
-            }
+                        //"CustomActivityNodeId": { "N": obj.custom_activity_node_id.toString() }
+                    }
+                }, function (err, data) {
+                    if(err) {
+                        console.log(err);
+                       // this.errors.(err);
+                    }
+                    else{
+                        callback(err,data);
+                    }
 
-        });
-}
-
-updateEmployee = function(request, callback) {
-    //this.find({}, callback);
- console.log("upadte employee final model");  
-   dyn.updateItem({
-    "TableName": "employees",
-    "Key": {
-        "id": {
-            "S": request.id
-        },
-        "employee_type": {
-            "S": "employee"
+                });
         }
-    },
-    "UpdateExpression": "set emp_name = :val1 ,date_of_birth = :val2 , date_of_joining = :val3",
-    "ConditionExpression": "email_id = :val4",
-    "ExpressionAttributeValues": {
-        ":val1": {"S": request.emp_name},      
-        ":val2": {"N": request.date_of_birth.toString()},
-        ":val3": {"N": request.date_of_joining.toString()},
-        ":val4": {"S": request.email_id},
-    },
-    "ReturnValues": "ALL_NEW"
-    }, function (err, data) {
-                if(err) {
-                    console.log(err);
-                }
-                else{
-                    callback(err,data);
-                }
-    });
-}
 
-employeeList = function(callback){
-    dyn.scan({
-        "TableName": "employees",
-        "ReturnConsumedCapacity": "TOTAL"
-    }, function (err, data) {
-                if(err) {
-                    console.log(err);
-                }
-                else{
-                    callback(err,data);
-            }
-    });
-    //     dyn.getItems({
-    //             "TableName": "employees",
-    //             "Key": {
-    //                  "id": {
-    //                         "S": "2"
-    //                     },
-    //                     "employee_type": {
-    //                         "S": "employee"
-    //                     }
-    //             },
-    //             // "ProjectionExpression":"emp_name",
-    //             "ConsistentRead": true,
-    //             "ReturnConsumedCapacity": "TOTAL"
-    //     }, function (err, data) {
-    //             if(err) {
-    //                 console.log(err);
-    //             }
-    //             else{
-    //                 callback(err,data);
-    //             }
-    // });
-}
-
-
-deleteEmployee = function(request, callback) {
-    //this.find({}, callback);
-    console.log("checking request");
-    console.log(request);
-   dyn.deleteItem({
-    "TableName": "employees",
-    "Key": {
-        "id": {
-            "S": request.id
-        },
-        "employee_type": {
-            "S": "employee"
-        }
-    },
-    "ConditionExpression": "email_id = :val2",
-    "ExpressionAttributeValues": {
-        ":val2": {"S": request.email_id}
-    },
-    "ReturnValues": "ALL_OLD"
-    }, function (err, data) {
-                if(err) {
-                    console.log(err);
-                }
-                else{
-                    callback(err,data);
-                }
-    });
-}
-getDetail = function(request, callback) {
-    dyn.scan({
-    "TableName": "employees",
-    "FilterExpression": "email_id = :val",
-    "ExpressionAttributeValues": {":val": {"S": request.email_id}},
-    "ReturnConsumedCapacity": "TOTAL"
-        }, function (err, data) {
-                if(err) {
-                    console.log(err);
-                }
-                else{
-                    callback(err,data);
-                }
-    });
-}
-
-sortEmployee = function(request, callback) {
-    //this.find({}, callback);
-    console.log(request);
-    dyn.query({
+        updateEmployee = function(request, callback) {
+         
+           dyn.updateItem({
             "TableName": "employees",
-            "ConsistentRead": true,
-            "KeyConditionExpression": "request = :val",
-            "ExpressionAttributeValues": {":val": {"S": request.data}}
-        }, function (err, data) {
-            if(err) {
-                console.log(err);
-               // this.errors.(err);
-            }
-            else{
-                callback(err,data);
-            }
-
-        });
-}
-filterByRange = function(request, callback) {
-    var filterBy = request.payload.filterBy;
-    request.payload.filterFrom = (new Date(request.payload.filterFrom)).getTime();
-    request.payload.filterTo = (new Date(request.payload.filterTo)).getTime();
-    var ScanFilterObj = {};
-    ScanFilterObj[filterBy] = {
-                            ComparisonOperator: 'BETWEEN', 
-                            AttributeValueList: [ { N: (request.payload.filterFrom).toString() }, { N: (request.payload.filterTo).toString() }],
-                        };
-    console.log(ScanFilterObj);
-    var params = {
-        TableName: 'employees',
-        ScanFilter: ScanFilterObj,
-        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
-    };
-    dyn.scan(params, function(err, data) {
-        if (err) console.log(err); // an error occurred
-        else callback(err, data); // successful response
-    });
-}
-filterEmployee = function(request, callback) {
-    //this.find({}, callback);
-    //console.log(request.payload);
-    var filterBy = request.payload.filterBy;
-    var ScanFilterObj = {};
-    if(filterBy==""){
-                ScanFilterObj['emp_id'] = {
-                                            ComparisonOperator: 'CONTAINS', 
-                                            AttributeValueList: [ { 'S': request.payload.filterVal }],
-                                        };
-                ScanFilterObj['emp_name'] = {
-                                            ComparisonOperator: 'CONTAINS', 
-                                            AttributeValueList: [ { 'S': request.payload.filterVal }],
-                                        };    
-                ScanFilterObj['email_id'] = {
-                                            ComparisonOperator: 'CONTAINS', 
-                                            AttributeValueList: [ { 'S': request.payload.filterVal }],
-                            };  
-    }else{
-                ScanFilterObj[filterBy] = {
-                                            ComparisonOperator: 'CONTAINS', 
-                                            AttributeValueList: [ { 'S': request.payload.filterVal }],
-                            };
-    }                     
-    var params = {
-        TableName: 'employees',
-        ScanFilter:ScanFilterObj,
-        ConditionalOperator: "OR",
-        ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
-    };
-    console.log(params)
-    dyn.scan(params, function(err, data) {
-        if (err) console.log(err); // an error occurred
-        else 
-        callback(err, data); // successful response
-    });
-    /*var params = {
-        'TableName' : 'employees',
-        'IndexName' : request.payload.filterBy,
-        'KeyConditions' : 
-        {
-            filterBy : 
-            {
-                "AttributeValueList" : [
-                {
-                    "S" : request.payload.filterVal
+            "Key": {
+                "id": {
+                    "S": request.id
+                },
+                "employee_type": {
+                    "S": "employee"
                 }
-                ],
-                "ComparisonOperator" : "CONTAINS"
-            }
-        },
-    }
-    dyn.scan(params, function(err, data) {
-        if (err) {
-            console.log (err)
-            callback(err, null)
-        } else {
-            callback(null, data)
+            },
+            "UpdateExpression": "set emp_name = :val1 ,date_of_birth = :val2 , date_of_joining = :val3,total_experience = :val4",
+            "ConditionExpression": "email_id = :val5",
+            "ExpressionAttributeValues": {
+                ":val1": {"S": request.emp_name},      
+                ":val2": {"N": request.date_of_birth.toString()},
+                ":val3": {"N": request.date_of_joining.toString()},
+                ":val4": {"N": request.total_experience.toString()},
+                ":val5": {"S": request.email_id},
+            },
+            "ReturnValues": "ALL_NEW"
+            }, function (err, data) {
+                        if(err) {
+                            console.log(err);
+                        }
+                        else{
+                            callback(err,data);
+                        }
+            });
         }
-    });
-*/
 
-/*     dyn.scan({
-    "TableName": "employees",
-    "FilterExpression": "#column CONTAINS :val",
-    "ExpressionAttributeNames": {
-        "#column": request.payload.filterBy,
-    },
-    "ExpressionAttributeValues": {":val": {"S": request.payload.filterVal}},
-    "ReturnConsumedCapacity": "TOTAL"
-        }, function (err, data) {
-                if(err) {
-                    console.log(err);
+        employeeList = function(callback){
+            dyn.scan({
+                "TableName": "employees",
+                "ReturnConsumedCapacity": "TOTAL"
+            }, function (err, data) {
+                        if(err) {
+                            console.log(err);
+                        }
+                        else{
+                            callback(err,data);
+                    }
+            });
+        }
+
+
+        deleteEmployee = function(request, callback) {
+           dyn.deleteItem({
+            "TableName": "employees",
+            "Key": {
+                "id": {
+                    "S": request.id
+                },
+                "employee_type": {
+                    "S": "employee"
                 }
-                else{
-                    callback(err,data);
+            },
+            "ConditionExpression": "email_id = :val2",
+            "ExpressionAttributeValues": {
+                ":val2": {"S": request.email_id}
+            },
+            "ReturnValues": "ALL_OLD"
+            }, function (err, data) {
+                        if(err) {
+                            console.log(err);
+                        }
+                        else{
+                            callback(err,data);
+                        }
+            });
+        }
+        getDetail = function(request, callback) {
+            dyn.scan({
+            "TableName": "employees",
+            "FilterExpression": "email_id = :val",
+            "ExpressionAttributeValues": {":val": {"S": request.email_id}},
+            "ReturnConsumedCapacity": "TOTAL"
+                }, function (err, data) {
+                        if(err) {
+                            console.log(err);
+                        }
+                        else{
+                            callback(err,data);
+                        }
+            });
+        }
+
+        sortEmployees = function(request, callback) {
+            dyn.query(
+                {
+
+                    TableName: 'employees',
+                    IndexName: 'emp_name',
+                    ConsistentRead: true,
+                    KeyConditions: { 
+                        employee_type: {
+                            ComparisonOperator: 'EQ', 
+                            AttributeValueList: [ { S: 'employee' }, ],
+                        },
+                    },
+                    ScanIndexForward: true,
                 }
-    });*/
-}
+
+
+
+                , function (err, data) {
+                    if(err) {
+                        console.log(err);
+                    }
+                    else{
+                        callback(err,data);
+                    }
+
+                });
+        }
+        filterByRange = function(request, callback) {
+            var filterBy = request.payload.filterBy;
+            request.payload.filterFrom = (new Date(request.payload.filterFrom)).getTime();
+            request.payload.filterTo = (new Date(request.payload.filterTo)).getTime();
+            var ScanFilterObj = {};
+            ScanFilterObj[filterBy] = {
+                                    ComparisonOperator: 'BETWEEN', 
+                                    AttributeValueList: [ { N: (request.payload.filterFrom).toString() }, { N: (request.payload.filterTo).toString() }],
+                                };
+            console.log(ScanFilterObj);
+            var params = {
+                TableName: 'employees',
+                ScanFilter: ScanFilterObj,
+                ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+            };
+            dyn.scan(params, function(err, data) {
+                if (err) console.log(err); // an error occurred
+                else callback(err, data); // successful response
+            });
+        }
+
+        filterEmployee = function(request, callback) {
+
+            var filterBy = request.payload.filterBy;
+            var ScanFilterObj = {};
+            if(filterBy==""){
+                        ScanFilterObj['emp_id'] = {
+                                                    ComparisonOperator: 'CONTAINS', 
+                                                    AttributeValueList: [ { 'S': request.payload.filterVal }],
+                                                };
+                        ScanFilterObj['emp_name'] = {
+                                                    ComparisonOperator: 'CONTAINS', 
+                                                    AttributeValueList: [ { 'S': request.payload.filterVal }],
+                                                };    
+                        ScanFilterObj['email_id'] = {
+                                                    ComparisonOperator: 'CONTAINS', 
+                                                    AttributeValueList: [ { 'S': request.payload.filterVal }],
+                                    };  
+            }else{
+                        ScanFilterObj[filterBy] = {
+                                                    ComparisonOperator: 'CONTAINS', 
+                                                    AttributeValueList: [ { 'S': request.payload.filterVal }],
+                                    };
+            }  
+
+            var params = {
+                TableName: 'employees',
+                ScanFilter:ScanFilterObj,
+                ConditionalOperator: "OR",
+                ReturnConsumedCapacity: 'TOTAL', // optional (NONE | TOTAL | INDEXES)
+            };
+            console.log(params)
+            dyn.scan(params, function(err, data) {
+                if (err) console.log(err); // an error occurred
+                else 
+                callback(err, data); // successful response
+            });
+
+
+        }
 
 
 module.exports = {
@@ -458,24 +422,7 @@ module.exports = {
     employeeList:employeeList,
     deleteEmployee:deleteEmployee,
     getDetail:getDetail,
-    sortEmployee:sortEmployee,
+    sortEmployees:sortEmployees,
     filterEmployee:filterEmployee,
     filterByRange:filterByRange
 };
-
-
- /* dyn.getItem({
-    "TableName": "employees",
-    "Key": {
-        "id": {
-            "S": "1"
-        },
-        "employee_type": {
-            "S": "employee"
-        }
-    },
-    "ProjectionExpression":"email_id, emp_name, date_of_birth, date_of_joining",
-    "ConsistentRead": true,
-    "ReturnConsumedCapacity": "TOTAL"
-    }
-    */
